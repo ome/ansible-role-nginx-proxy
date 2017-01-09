@@ -11,5 +11,5 @@ galaxy_info:
   galaxy_tags: []
 
 dependencies:
-- role: selinux-utils
-- role: nginx
+- role: openmicroscopy.selinux-utils
+- role: openmicroscopy.nginx
