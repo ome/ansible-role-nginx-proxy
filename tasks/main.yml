@@ -20,34 +20,7 @@
 
 - include: nginx-streams.yml
 
-# See http://serverfault.com/a/337893
-- name: nginx | proxy config
-  become: yes
-  template:
-    src: nginx-confd-proxy.j2
-    dest: /etc/nginx/conf.d/proxy.conf
-  notify:
-    - restart nginx
-  when: nginx_proxy_backends
-
-- name: nginx | dynamic proxy config
-  become: yes
-  file:
-    dest: /etc/nginx/conf.d/proxy.conf
-    state: absent
-  notify:
-    - restart nginx
-  when: not nginx_proxy_backends
-
-- name: nginx | Remove old proxy config
-  become: yes
-  file:
-    dest: /etc/nginx/conf.d/dynamic-proxy.conf
-    state: absent
-  notify:
-    - restart nginx
-
-- include: nginx-ssl-certs.yml
+- include: nginx-proxy-sites.yml
 
 - name: nginx | start service
   become: yes

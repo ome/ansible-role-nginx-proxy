@@ -1,0 +1,54 @@
+---
+# tasks file for roles/nginx-proxy sites and ssl
+
+# See http://serverfault.com/a/337893
+- name: nginx | proxy config
+  become: yes
+  template:
+    src: nginx-confd-proxy.j2
+    dest: /etc/nginx/conf.d/proxy-{{ site.nginx_proxy_server_name | default('default') }}.conf
+  notify:
+    - restart nginx
+  with_items: "{{ nginx_proxy_sites }}"
+  loop_control:
+    loop_var: site
+
+- name: nginx | create proxy ssl certificate directory
+  become: yes
+  file:
+    path: "{{ nginx_ssl_certificate_directory }}"
+    state: directory
+
+- name: nginx | copy proxy ssl certificate
+  become: yes
+  copy:
+    dest: "{{ nginx_ssl_certificate_directory }}/{{ item.nginx_proxy_ssl_certificate | default(nginx_proxy_ssl_certificate) }}"
+    group: root
+    owner: root
+    mode: 0400
+    src: "{{ item.nginx_proxy_ssl_certificate_source_path | default(nginx_proxy_ssl_certificate_source_path) }}"
+  when: >
+    item.nginx_proxy_ssl_certificate_source_path |
+      default(nginx_proxy_ssl_certificate_source_path) |
+      length > 0
+  with_items:
+    - "{{ nginx_proxy_sites }}"
+  notify:
+    - restart nginx
+
+- name: nginx | copy proxy ssl certificate key
+  become: yes
+  copy:
+    dest: "{{ nginx_ssl_certificate_directory }}/{{ item.nginx_proxy_ssl_certificate_key | default(nginx_proxy_ssl_certificate_key) }}"
+    group: root
+    owner: root
+    mode: 0400
+    src: "{{ item.nginx_proxy_ssl_certificate_key_source_path | default(nginx_proxy_ssl_certificate_key_source_path) }}"
+  when: >
+    item.nginx_proxy_ssl_certificate_key_source_path |
+      default(nginx_proxy_ssl_certificate_key_source_path) |
+      length > 0
+  with_items:
+    - "{{ nginx_proxy_sites }}"
+  notify:
+    - restart nginx

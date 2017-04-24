@@ -10,14 +10,19 @@ Dependencies
 Requires the `nginx` role (automatically included).
 
 
-Role Variables
---------------
-
-Defaults: `defaults/main.yml`
+Role Variables: Main Nginx configuration
+----------------------------------------
 
 - `nginx_proxy_worker_processes`: Number of worker processes, default 1
 - `nginx_proxy_buffers`: Number and size of proxy buffers (optional)
 - `nginx_dynamic_proxy_resolvers`: If the proxied servers are referred to by hostname instead of IP addresses you must provide at least one DNS server
+
+
+Role Variables: Main site
+-------------------------
+
+- `nginx_proxy_server_name`: The server name, default `$hostname`.
+  Set this if you are configuring a virtualhost.
 
 SSL variables:
 
@@ -25,11 +30,12 @@ SSL variables:
 - `nginx_proxy_hsts_age`: The max-age in seconds for a HSTS (HTTP Strict Transport Security) header, default is to omit this header
 - `nginx_proxy_http2`: If `True` enable HTTP2, default `False`
 - `nginx_proxy_force_ssl`: If `True` permanently redirect all `http` requests to `https`, default `False`
+- `nginx_ssl_certificate_directory`: Server directory to SSL certificates, default `/etc/nginx/ssl`
 
 If SSL is enabled you should install the certificates on the server and set the following two variables:
 
-- `nginx_proxy_ssl_certificate`: Server path to SSL certificate
-- `nginx_proxy_ssl_certificate_key`: Server path to SSL certificate key
+- `nginx_proxy_ssl_certificate`: Server SSL certificate filename
+- `nginx_proxy_ssl_certificate_key`: Server SSL certificate key filename
 
 Optionally this role can handle the certificate installation for you, if you specify the local source paths (default empty, you must handle the installation yourself):
 
@@ -109,6 +115,16 @@ Caching:
 - `nginx_proxy_cachebuster_port`: An alternative port which can be used to force a cache refresh, disabled by default. You should ensure this is firewalled. If SELinux is enabled and the port is not one that nginx can bind by default (typically 80, 81, 443, 488, 8008, 8009, 8443, 9000 are allowed by default) you must update your policy yourself.
 
 Warning: for convenience, put `nginx_proxy_cache_parent_path` on a separate partition (calculate size of the partition based on `max_size` set on disk caches).
+
+
+Role Variables: Multiple sites
+------------------------------
+
+- `nginx_proxy_sites`: Additional sites can be configured by creating an array of dictionaries overriding the above "Main site" parameters.
+  The default: `nginx_proxy_sites: { nginx_proxy_is_default: True }` mean a single site will be created using the parameters defined above.
+  Most parameters are supported in site specific confiugrations with the exception of those named `nginx_proxy_*cache*`, and `nginx_proxy_redirect_map`.
+  One site-specific additional parameter is supported:
+  - `nginx_proxy_is_default`: If `True` this is the default Nginx site, default `False`.
 
 
 Example Playbooks

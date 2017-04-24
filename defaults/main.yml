@@ -1,11 +1,30 @@
 ---
 # defaults file for roles/nginx-proxy
 
+######################################################################
+# Top-level Nginx config /etc/nginx/nginx.conf
+######################################################################
+
 # Number of worker processes, use auto to set this to the number of CPUs
 nginx_proxy_worker_processes: 1
 
 # Format for access.log, see templates/nginx-conf.j2 for predefined formats
 nginx_proxy_log_format: main_timed_cache
+
+# Array of dictionaries with per-site parameters (same as main site)
+nginx_proxy_sites:
+- nginx_proxy_is_default: True
+
+# Directory for Nginx SSL certificates
+nginx_ssl_certificate_directory: /etc/nginx/ssl
+
+
+######################################################################
+# Defaults for per-site Nginx config /etc/nginx/*.d/[site].conf
+######################################################################
+
+# Servername (required vor virtualhosts)
+nginx_proxy_server_name: "$hostname"
 
 # Enable SSL?
 nginx_proxy_ssl: False
@@ -34,6 +53,8 @@ nginx_proxy_ssl_certificate_key_source_path: ""
 nginx_proxy_hsts_age:
 
 # DNS servers for hostname lookups
+# TODO: This should be renamed `nginx_proxy_dynamic_resolvers`, and
+# support added for per-site configuration
 nginx_dynamic_proxy_resolvers:
 
 # Number and size of proxy buffers
