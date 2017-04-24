@@ -16,22 +16,35 @@
 - name: nginx | create proxy ssl certificate directory
   become: yes
   file:
-    path: "{{ nginx_ssl_certificate_directory }}"
+    path: "{{ item.nginx_proxy_ssl_certificate | dirname }}"
     state: directory
+  when: "item.nginx_proxy_ssl_certificate | default(None)"
+  with_items:
+    - { nginx_proxy_ssl_certificate: "{{ nginx_proxy_ssl_certificate }}" }
+    - "{{ nginx_proxy_sites }}"
+
+- name: nginx | create proxy ssl certificate key directory
+  become: yes
+  file:
+    path: "{{ item.nginx_proxy_ssl_certificate_key | dirname }}"
+    state: directory
+  when: "item.nginx_proxy_ssl_certificate_key | default(None)"
+  with_items:
+    - { nginx_proxy_ssl_certificate_key: "{{ nginx_proxy_ssl_certificate_key }}" }
+    - "{{ nginx_proxy_sites }}"
 
 - name: nginx | copy proxy ssl certificate
   become: yes
   copy:
-    dest: "{{ nginx_ssl_certificate_directory }}/{{ item.nginx_proxy_ssl_certificate | default(nginx_proxy_ssl_certificate) }}"
+    dest: "{{ item.nginx_proxy_ssl_certificate }}"
     group: root
     owner: root
     mode: 0400
-    src: "{{ item.nginx_proxy_ssl_certificate_source_path | default(nginx_proxy_ssl_certificate_source_path) }}"
-  when: >
-    item.nginx_proxy_ssl_certificate_source_path |
-      default(nginx_proxy_ssl_certificate_source_path) |
-      length > 0
+    src: "{{ item.nginx_proxy_ssl_certificate_source_path }}"
+  when: "item.nginx_proxy_ssl_certificate_source_path | default(None)"
   with_items:
+    - { nginx_proxy_ssl_certificate: "{{ nginx_proxy_ssl_certificate }}",
+        nginx_proxy_ssl_certificate_source_path: "{{ nginx_proxy_ssl_certificate_source_path }}" }
     - "{{ nginx_proxy_sites }}"
   notify:
     - restart nginx
@@ -39,16 +52,15 @@
 - name: nginx | copy proxy ssl certificate key
   become: yes
   copy:
-    dest: "{{ nginx_ssl_certificate_directory }}/{{ item.nginx_proxy_ssl_certificate_key | default(nginx_proxy_ssl_certificate_key) }}"
+    dest: "{{ item.nginx_proxy_ssl_certificate_key }}"
     group: root
     owner: root
     mode: 0400
-    src: "{{ item.nginx_proxy_ssl_certificate_key_source_path | default(nginx_proxy_ssl_certificate_key_source_path) }}"
-  when: >
-    item.nginx_proxy_ssl_certificate_key_source_path |
-      default(nginx_proxy_ssl_certificate_key_source_path) |
-      length > 0
+    src: "{{ item.nginx_proxy_ssl_certificate_key_source_path }}"
+  when: "item.nginx_proxy_ssl_certificate_key_source_path | default(None)"
   with_items:
+    - { nginx_proxy_ssl_certificate_key: "{{ nginx_proxy_ssl_certificate_key }}",
+        nginx_proxy_ssl_certificate_key_source_path: "{{ nginx_proxy_ssl_certificate_key_source_path }}" }
     - "{{ nginx_proxy_sites }}"
   notify:
     - restart nginx

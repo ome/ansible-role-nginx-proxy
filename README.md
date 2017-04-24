@@ -30,12 +30,11 @@ SSL variables:
 - `nginx_proxy_hsts_age`: The max-age in seconds for a HSTS (HTTP Strict Transport Security) header, default is to omit this header
 - `nginx_proxy_http2`: If `True` enable HTTP2, default `False`
 - `nginx_proxy_force_ssl`: If `True` permanently redirect all `http` requests to `https`, default `False`
-- `nginx_ssl_certificate_directory`: Server directory to SSL certificates, default `/etc/nginx/ssl`
 
 If SSL is enabled you should install the certificates on the server and set the following two variables:
 
-- `nginx_proxy_ssl_certificate`: Server SSL certificate filename
-- `nginx_proxy_ssl_certificate_key`: Server SSL certificate key filename
+- `nginx_proxy_ssl_certificate`: Server path to SSL certificate
+- `nginx_proxy_ssl_certificate_key`: Server path to SSL certificate key
 
 Optionally this role can handle the certificate installation for you, if you specify the local source paths (default empty, you must handle the installation yourself):
 

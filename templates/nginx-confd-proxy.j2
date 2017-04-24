@@ -31,8 +31,8 @@ server {
     server_name  {{ site.nginx_proxy_server_name | default(nginx_proxy_server_name) }};
 
 {% if (site.nginx_proxy_ssl | default(nginx_proxy_ssl)) %}
-    ssl_certificate {{ nginx_ssl_certificate_directory }}/{{ site.nginx_proxy_ssl_certificate | default(nginx_proxy_ssl_certificate) }};
-    ssl_certificate_key {{ nginx_ssl_certificate_directory }}/{{ site.nginx_proxy_ssl_certificate_key | default(nginx_proxy_ssl_certificate_key) }};
+    ssl_certificate {{ site.nginx_proxy_ssl_certificate | default(nginx_proxy_ssl_certificate) }};
+    ssl_certificate_key {{ site.nginx_proxy_ssl_certificate_key | default(nginx_proxy_ssl_certificate_key) }};
     ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;  # don't use SSLv3 ref: POODLE
 {% endif %}
 

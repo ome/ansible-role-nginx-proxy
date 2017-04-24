@@ -15,15 +15,12 @@ nginx_proxy_log_format: main_timed_cache
 nginx_proxy_sites:
 - nginx_proxy_is_default: True
 
-# Directory for Nginx SSL certificates
-nginx_ssl_certificate_directory: /etc/nginx/ssl
-
 
 ######################################################################
 # Defaults for per-site Nginx config /etc/nginx/*.d/[site].conf
 ######################################################################
 
-# Servername (required vor virtualhosts)
+# Servername (required for virtualhosts)
 nginx_proxy_server_name: "$hostname"
 
 # Enable SSL?
