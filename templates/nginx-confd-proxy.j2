@@ -1,8 +1,11 @@
 server {
-    listen       80 default_server;
+    listen       80
+{%   if (site.nginx_proxy_is_default | default(False)) %}
+      default_server
+{%   endif %};
 
-{% if nginx_proxy_ssl and nginx_proxy_force_ssl %}
-    server_name  $hostname;
+{% if (site.nginx_proxy_ssl | default(nginx_proxy_ssl)) and (site.nginx_proxy_force_ssl | default(nginx_proxy_force_ssl)) %}
+    server_name  {{ site.nginx_proxy_server_name | default(nginx_proxy_server_name) }};
     # Redirect all http to https
     return 301 https://$host$request_uri;
 }
@@ -10,20 +13,26 @@ server {
 server {
 {% endif %}
 
-{% if nginx_proxy_ssl %}
-    listen       443 ssl{% if nginx_proxy_http2 %} http2{% endif %};
-{%   if nginx_proxy_hsts_age %}
-    add_header Strict-Transport-Security "max-age={{ nginx_proxy_hsts_age }}";
+{% if (site.nginx_proxy_ssl | default(nginx_proxy_ssl)) %}
+    listen       443 ssl
+{%   if (site.nginx_proxy_http2 | default(nginx_proxy_http2)) %}
+      http2
+{%   endif %}
+{%   if (site.nginx_proxy_is_default | default(False)) %}
+      default_server
+{%   endif %};
+{%   if (site.nginx_proxy_hsts_age | default(nginx_proxy_hsts_age)) %}
+    add_header Strict-Transport-Security "max-age={{ site.nginx_proxy_hsts_age | default(nginx_proxy_hsts_age) }}";
 {%   endif %}
 {% endif %}
 {% if nginx_proxy_cachebuster_port %}
     listen       {{ nginx_proxy_cachebuster_port }};
 {% endif %}
-    server_name  $hostname;
+    server_name  {{ site.nginx_proxy_server_name | default(nginx_proxy_server_name) }};
 
-{% if nginx_proxy_ssl %}
-    ssl_certificate {{ nginx_proxy_ssl_certificate }};
-    ssl_certificate_key {{ nginx_proxy_ssl_certificate_key }};
+{% if (site.nginx_proxy_ssl | default(nginx_proxy_ssl)) %}
+    ssl_certificate {{ site.nginx_proxy_ssl_certificate | default(nginx_proxy_ssl_certificate) }};
+    ssl_certificate_key {{ site.nginx_proxy_ssl_certificate_key | default(nginx_proxy_ssl_certificate_key) }};
     ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;  # don't use SSLv3 ref: POODLE
 {% endif %}
 
@@ -39,39 +48,39 @@ server {
         root   /usr/share/nginx/html;
     }
 
-{% for item in nginx_proxy_block_locations %}
+{% for item in (site.nginx_proxy_block_locations | default([nginx_proxy_block_locations])) %}
     location {{ item }} {
         return 404;
     }
 {% endfor %}
 
-{% if nginx_dynamic_proxy_resolvers %}
+{% if (site.nginx_dynamic_proxy_resolvers | default(nginx_dynamic_proxy_resolvers)) %}
     # Nginx requires explicit DNS servers
-    resolver {{ nginx_dynamic_proxy_resolvers }};
+    resolver {{ site.nginx_dynamic_proxy_resolvers | default(nginx_dynamic_proxy_resolvers) }};
 {% endif %}
 
-{% if nginx_proxy_buffers %}
+{% if (site.nginx_proxy_buffers | default(nginx_proxy_buffers)) %}
     # Proxy buffers
-    proxy_buffers {{ nginx_proxy_buffers }};
+    proxy_buffers {{ site.nginx_proxy_buffers | default(nginx_proxy_buffers) }};
 {% endif %}
 
     # Common proxy headers
-    proxy_set_header Host {{ nginx_proxy_set_header_host }};
+    proxy_set_header Host {{ site.nginx_proxy_set_header_host | default(nginx_proxy_set_header_host) }};
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-{% if nginx_proxy_forward_scheme_header %}
-    proxy_set_header {{ nginx_proxy_forward_scheme_header }} $scheme;
+{% if (site.nginx_proxy_forward_scheme_header | default(nginx_proxy_forward_scheme_header)) %}
+    proxy_set_header {{ site.nginx_proxy_forward_scheme_header | default(nginx_proxy_forward_scheme_header) }} $scheme;
 {% endif %}
 
     port_in_redirect off;
 
-{% for item in nginx_proxy_redirect_map_locations %}
+{% for item in (site.nginx_proxy_redirect_map_locations | default(nginx_proxy_redirect_map_locations)) %}
     location {{ item.location }} {
         return {{ item.code | default('302') }} $redirect_uri;
     }
 {% endfor %}
 
-{% for item in nginx_proxy_direct_locations %}
+{% for item in (site.nginx_proxy_direct_locations | default(nginx_proxy_direct_locations)) %}
     location {{ item.location }} {
 {%   if 'redirect301' in item %}
         return 301 {{ item.redirect301 }};
@@ -91,7 +100,7 @@ server {
     }
 {% endfor %}
 
-{% for item in nginx_proxy_backends %}
+{% for item in (site.nginx_proxy_backends | default(nginx_proxy_backends)) %}
     location {{ item.location }} {
 {%   if item.dynamic | default(False) %}
         # To force dynamic DNS lookups need to use a variable

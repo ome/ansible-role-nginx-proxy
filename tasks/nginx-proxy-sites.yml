@@ -1,0 +1,66 @@
+---
+# tasks file for roles/nginx-proxy sites and ssl
+
+# See http://serverfault.com/a/337893
+- name: nginx | proxy config
+  become: yes
+  template:
+    src: nginx-confd-proxy.j2
+    dest: /etc/nginx/conf.d/proxy-{{ site.nginx_proxy_server_name | default('default') }}.conf
+  notify:
+    - restart nginx
+  with_items: "{{ nginx_proxy_sites }}"
+  loop_control:
+    loop_var: site
+
+- name: nginx | create proxy ssl certificate directory
+  become: yes
+  file:
+    path: "{{ item.nginx_proxy_ssl_certificate | dirname }}"
+    state: directory
+  when: "item.nginx_proxy_ssl_certificate | default(None)"
+  with_items:
+    - { nginx_proxy_ssl_certificate: "{{ nginx_proxy_ssl_certificate }}" }
+    - "{{ nginx_proxy_sites }}"
+
+- name: nginx | create proxy ssl certificate key directory
+  become: yes
+  file:
+    path: "{{ item.nginx_proxy_ssl_certificate_key | dirname }}"
+    state: directory
+  when: "item.nginx_proxy_ssl_certificate_key | default(None)"
+  with_items:
+    - { nginx_proxy_ssl_certificate_key: "{{ nginx_proxy_ssl_certificate_key }}" }
+    - "{{ nginx_proxy_sites }}"
+
+- name: nginx | copy proxy ssl certificate
+  become: yes
+  copy:
+    dest: "{{ item.nginx_proxy_ssl_certificate }}"
+    group: root
+    owner: root
+    mode: 0400
+    src: "{{ item.nginx_proxy_ssl_certificate_source_path }}"
+  when: "item.nginx_proxy_ssl_certificate_source_path | default(None)"
+  with_items:
+    - { nginx_proxy_ssl_certificate: "{{ nginx_proxy_ssl_certificate }}",
+        nginx_proxy_ssl_certificate_source_path: "{{ nginx_proxy_ssl_certificate_source_path }}" }
+    - "{{ nginx_proxy_sites }}"
+  notify:
+    - restart nginx
+
+- name: nginx | copy proxy ssl certificate key
+  become: yes
+  copy:
+    dest: "{{ item.nginx_proxy_ssl_certificate_key }}"
+    group: root
+    owner: root
+    mode: 0400
+    src: "{{ item.nginx_proxy_ssl_certificate_key_source_path }}"
+  when: "item.nginx_proxy_ssl_certificate_key_source_path | default(None)"
+  with_items:
+    - { nginx_proxy_ssl_certificate_key: "{{ nginx_proxy_ssl_certificate_key }}",
+        nginx_proxy_ssl_certificate_key_source_path: "{{ nginx_proxy_ssl_certificate_key_source_path }}" }
+    - "{{ nginx_proxy_sites }}"
+  notify:
+    - restart nginx

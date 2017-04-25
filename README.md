@@ -10,14 +10,19 @@ Dependencies
 Requires the `nginx` role (automatically included).
 
 
-Role Variables
---------------
-
-Defaults: `defaults/main.yml`
+Role Variables: Main Nginx configuration
+----------------------------------------
 
 - `nginx_proxy_worker_processes`: Number of worker processes, default 1
 - `nginx_proxy_buffers`: Number and size of proxy buffers (optional)
 - `nginx_dynamic_proxy_resolvers`: If the proxied servers are referred to by hostname instead of IP addresses you must provide at least one DNS server
+
+
+Role Variables: Main site
+-------------------------
+
+- `nginx_proxy_server_name`: The server name, default `$hostname`.
+  Set this if you are configuring a virtualhost.
 
 SSL variables:
 
@@ -109,6 +114,16 @@ Caching:
 - `nginx_proxy_cachebuster_port`: An alternative port which can be used to force a cache refresh, disabled by default. You should ensure this is firewalled. If SELinux is enabled and the port is not one that nginx can bind by default (typically 80, 81, 443, 488, 8008, 8009, 8443, 9000 are allowed by default) you must update your policy yourself.
 
 Warning: for convenience, put `nginx_proxy_cache_parent_path` on a separate partition (calculate size of the partition based on `max_size` set on disk caches).
+
+
+Role Variables: Multiple sites
+------------------------------
+
+- `nginx_proxy_sites`: Additional sites can be configured by creating an array of dictionaries overriding the above "Main site" parameters.
+  The default: `nginx_proxy_sites: { nginx_proxy_is_default: True }` mean a single site will be created using the parameters defined above.
+  Most parameters are supported in site specific confiugrations with the exception of those named `nginx_proxy_*cache*`, and `nginx_proxy_redirect_map`.
+  One site-specific additional parameter is supported:
+  - `nginx_proxy_is_default`: If `True` this is the default Nginx site, default `False`.
 
 
 Example Playbooks
