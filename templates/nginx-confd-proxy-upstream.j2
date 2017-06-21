@@ -1,0 +1,12 @@
+# Nginx upstream servers
+
+{% for item in nginx_proxy_upstream_servers %}
+upstream {{ item.name }} {
+{%   if item.balance | default('') | length > 0 %}
+  {{ item.balance }};
+{%   endif %}
+{%   for server in item.servers %}
+  server {{ server }};
+{%   endfor %}
+}
+{% endfor %}

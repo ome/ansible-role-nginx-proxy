@@ -53,9 +53,14 @@ Backend servers:
   - `read_timeout`: The proxy read timeout, optional
   - `host_header`: Optionally set the Host header, you shouldn't need to set this unless you're trying to work around bugs in applications
 
+- `nginx_proxy_upstream_servers`: List of dictionaries of backend servers used for load-balancing with fields:
+  - `name`: The name of the load-balancing group (can be referenced in `nginx_proxy_backends.[].server`)
+  - `balance`: Load balancing algorithm
+  - `servers`: List of backend servers to be load-balanced
+
 - `nginx_proxy_streams`: List of dictionaries of backend streaming servers
   - `name`: A variable name used for grouping multiple upstream servers
-  - `port`: The port Nginx should lsiten on
+  - `port`: The port Nginx should listen on
   - `servers`: A list of backend servers, each item may include server specific parameters
   - `timeout`: Timeout between successive reads/writes
   - `connect_timeout`: Backend connection timeout

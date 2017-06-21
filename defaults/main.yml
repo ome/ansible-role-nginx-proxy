@@ -69,6 +69,9 @@ nginx_proxy_backends: []
 #  cache_validity: 1d
 #  websockets: False
 
+# List of dicts of upstream servers
+nginx_proxy_upstream_servers: []
+
 # List of redirections
 nginx_proxy_redirect_map: []
 #- match: /old/url
