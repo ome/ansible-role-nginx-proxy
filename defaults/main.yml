@@ -15,6 +15,10 @@ nginx_proxy_log_format: main_timed_cache
 nginx_proxy_sites:
 - nginx_proxy_is_default: True
 
+# Requests on this port will force a cache refresh, global configuration
+# You must also set nginx_proxy_cachebuster_enabled: True
+nginx_proxy_cachebuster_port:
+
 
 ######################################################################
 # Defaults for per-site Nginx config /etc/nginx/*.d/[site].conf
@@ -98,6 +102,9 @@ nginx_proxy_websockets_enable: False
 # List of dicts of backend streaming servers
 nginx_proxy_streams: []
 
+# Listen on this port, set to 0 to disable
+nginx_proxy_listen_http: 80
+
 # Caching parameters
 # Parent path of Nginx disk caches
 nginx_proxy_cache_parent_path: /var/cache/nginx
@@ -141,5 +148,6 @@ nginx_proxy_cache_key_map: []
 # Use stale cache if these situations are encountered
 nginx_proxy_cache_use_stale: "error timeout invalid_header updating http_500 http_502 http_503 http_504"
 
-# Requests on this port will force a cache refresh
-nginx_proxy_cachebuster_port:
+# Set this to True to ensure nginx_proxy_cachebuster_port takes effect, can
+# be per site
+nginx_proxy_cachebuster_enabled: False
