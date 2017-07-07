@@ -27,7 +27,7 @@ server {
     add_header Strict-Transport-Security "max-age={{ site.nginx_proxy_hsts_age | default(nginx_proxy_hsts_age) }}";
 {%   endif %}
 {% endif %}
-{% if (site.nginx_proxy_cachebuster_enabled | default(nginx_proxy_cachebuster_enabled)) %}
+{% if (site.nginx_proxy_cachebuster_enabled | default(nginx_proxy_cachebuster_enabled)) and nginx_proxy_cachebuster_port %}
     listen       {{ nginx_proxy_cachebuster_port }};
 {% endif %}
     server_name  {{ site.nginx_proxy_server_name | default(nginx_proxy_server_name) }};
