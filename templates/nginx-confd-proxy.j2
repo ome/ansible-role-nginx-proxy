@@ -1,8 +1,10 @@
 server {
-    listen       80
+{% if (site.nginx_proxy_listen_http | default(nginx_proxy_listen_http)) %}
+    listen       {{ nginx_proxy_listen_http }}
 {%   if (site.nginx_proxy_is_default | default(False)) %}
       default_server
 {%   endif %};
+{% endif %}
 
 {% if (site.nginx_proxy_ssl | default(nginx_proxy_ssl)) and (site.nginx_proxy_force_ssl | default(nginx_proxy_force_ssl)) %}
     server_name  {{ site.nginx_proxy_server_name | default(nginx_proxy_server_name) }};
@@ -25,7 +27,7 @@ server {
     add_header Strict-Transport-Security "max-age={{ site.nginx_proxy_hsts_age | default(nginx_proxy_hsts_age) }}";
 {%   endif %}
 {% endif %}
-{% if nginx_proxy_cachebuster_port %}
+{% if (site.nginx_proxy_cachebuster_enabled | default(nginx_proxy_cachebuster_enabled)) and nginx_proxy_cachebuster_port %}
     listen       {{ nginx_proxy_cachebuster_port }};
 {% endif %}
     server_name  {{ site.nginx_proxy_server_name | default(nginx_proxy_server_name) }};

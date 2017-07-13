@@ -23,10 +23,14 @@ Role Variables: Main site
 
 - `nginx_proxy_server_name`: The server name, default `$hostname`.
   Set this if you are configuring a virtualhost.
+- `nginx_proxy_listen_http`: Listen on this port, default `80`.
+- `nginx_proxy_cachebuster_port`: An alternative port which can be used to force a cache refresh, disabled by default.
+  You should ensure this is firewalled.
+  You must also set `nginx_proxy_cachebuster_enabled` to enable this for individual sites.
 
 SSL variables:
 
-- `nginx_proxy_ssl`: If `True` enable SSL, default `False`
+- `nginx_proxy_ssl`: If `True` enable SSL on port `443`, default `False`
 - `nginx_proxy_hsts_age`: The max-age in seconds for a HSTS (HTTP Strict Transport Security) header, default is to omit this header
 - `nginx_proxy_http2`: If `True` enable HTTP2, default `False`
 - `nginx_proxy_force_ssl`: If `True` permanently redirect all `http` requests to `https`, default `False`
@@ -116,9 +120,11 @@ Caching:
 `nginx_proxy_cache_key` is always included as the default.
 - `nginx_proxy_cache_use_stale`: Situations in which stale cache results should be returned, see `defaults/main.yml` for default
 - `nginx_proxy_cache_lock_time`: Prevent multiple backend requests to the same object (subsequent requests will wait for the first to either return or time-out), default 1 minute
-- `nginx_proxy_cachebuster_port`: An alternative port which can be used to force a cache refresh, disabled by default. You should ensure this is firewalled. If SELinux is enabled and the port is not one that nginx can bind by default (typically 80, 81, 443, 488, 8008, 8009, 8443, 9000 are allowed by default) you must update your policy yourself.
+- `nginx_proxy_cachebuster_enabled`: Set to `True` to enable cache-busting on port `nginx_proxy_cachebuster_port`
 
 Warning: for convenience, put `nginx_proxy_cache_parent_path` on a separate partition (calculate size of the partition based on `max_size` set on disk caches).
+
+Warning: If SELinux is enabled you may need to update your policy yourself to allow Nginx to bind to a non-standard port (typically 80, 81, 443, 488, 8008, 8009, 8443, 9000 are allowed).
 
 
 Role Variables: Multiple sites
