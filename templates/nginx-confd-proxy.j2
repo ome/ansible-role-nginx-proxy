@@ -41,7 +41,9 @@ server {
     #charset koi8-r;
     #access_log  /var/log/nginx/log/host.access.log  main;
 
-    #error_page  404              /404.html;
+{%   if (site.nginx_proxy_404 | default(nginx_proxy_404)) %}
+    error_page  404              {{ site.nginx_proxy_404 | default(nginx_proxy_404) }};
+{%   endif %};
 
     # redirect server error pages to the static page /50x.html
     #

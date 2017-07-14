@@ -27,6 +27,7 @@ Role Variables: Main site
 - `nginx_proxy_cachebuster_port`: An alternative port which can be used to force a cache refresh, disabled by default.
   You should ensure this is firewalled.
   You must also set `nginx_proxy_cachebuster_enabled` to enable this for individual sites.
+- `nginx_proxy_404`: An alternative port which can be used to force a cache refresh, disabled by default.
 
 SSL variables:
 
@@ -165,6 +166,7 @@ Advanced configuration: force https, use HSTS, enable HTTP2
           server: http://a.internal
           cache_validity: 1h
         nginx_proxy_worker_processes: 4
+        nginx_proxy_404: '/404.html'
         nginx_proxy_ssl: True
         nginx_proxy_ssl_certificate: /etc/nginx/ssl/website.crt
         nginx_proxy_ssl_certificate_key: /etc/nginx/ssl/website.key
