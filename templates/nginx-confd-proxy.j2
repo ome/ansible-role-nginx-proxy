@@ -43,7 +43,7 @@ server {
 
 {%   if (site.nginx_proxy_404 | default(nginx_proxy_404)) %}
     error_page  404              {{ site.nginx_proxy_404 | default(nginx_proxy_404) }};
-{%   endif %};
+{%   endif %}
 
     # redirect server error pages to the static page /50x.html
     #
