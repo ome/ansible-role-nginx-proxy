@@ -1,6 +1,9 @@
 Nginx Proxy
 ===========
 
+[![Build Status](https://travis-ci.org/openmicroscopy/ansible-role-nginx-proxy.svg)](https://travis-ci.org/openmicroscopy/ansible-role-nginx-nginx)
+[![Ansible Role](https://img.shields.io/ansible/role/14762.svg)](https://galaxy.ansible.com/openmicroscopy/jekyll-build/)
+
 Install Nginx for use as a front-end proxy.
 
 
