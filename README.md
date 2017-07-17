@@ -1,7 +1,7 @@
 Nginx Proxy
 ===========
 
-[![Build Status](https://travis-ci.org/openmicroscopy/ansible-role-nginx-proxy.svg)](https://travis-ci.org/openmicroscopy/ansible-role-nginx-nginx)
+[![Build Status](https://travis-ci.org/openmicroscopy/ansible-role-nginx-proxy.svg)](https://travis-ci.org/openmicroscopy/ansible-role-nginx-proxy)
 [![Ansible Role](https://img.shields.io/ansible/role/14769.svg)](https://galaxy.ansible.com/openmicroscopy/nginx-proxy/)
 
 Install Nginx for use as a front-end proxy.
