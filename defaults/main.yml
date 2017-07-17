@@ -15,6 +15,9 @@ nginx_proxy_log_format: main_timed_cache
 nginx_proxy_sites:
 - nginx_proxy_is_default: True
 
+# URI for 404 errors
+nginx_proxy_404:
+
 # Requests on this port will force a cache refresh, global configuration
 # You must also set nginx_proxy_cachebuster_enabled: True
 nginx_proxy_cachebuster_port:

@@ -1,6 +1,9 @@
 Nginx Proxy
 ===========
 
+[![Build Status](https://travis-ci.org/openmicroscopy/ansible-role-nginx-proxy.svg)](https://travis-ci.org/openmicroscopy/ansible-role-nginx-nginx)
+[![Ansible Role](https://img.shields.io/ansible/role/14769.svg)](https://galaxy.ansible.com/openmicroscopy/nginx-proxy/)
+
 Install Nginx for use as a front-end proxy.
 
 
@@ -27,6 +30,7 @@ Role Variables: Main site
 - `nginx_proxy_cachebuster_port`: An alternative port which can be used to force a cache refresh, disabled by default.
   You should ensure this is firewalled.
   You must also set `nginx_proxy_cachebuster_enabled` to enable this for individual sites.
+- `nginx_proxy_404`: The URI to show for 404 errors, default ''.
 
 SSL variables:
 
@@ -165,6 +169,7 @@ Advanced configuration: force https, use HSTS, enable HTTP2
           server: http://a.internal
           cache_validity: 1h
         nginx_proxy_worker_processes: 4
+        nginx_proxy_404: '/404.html'
         nginx_proxy_ssl: True
         nginx_proxy_ssl_certificate: /etc/nginx/ssl/website.crt
         nginx_proxy_ssl_certificate_key: /etc/nginx/ssl/website.key
