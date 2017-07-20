@@ -56,6 +56,7 @@
     - "{{ nginx_proxy_sites }}"
   notify:
     - restart nginx
+  no_log: True
 
 - name: nginx | copy proxy ssl certificate key
   become: yes
@@ -72,3 +73,4 @@
     - "{{ nginx_proxy_sites }}"
   notify:
     - restart nginx
+  no_log: True
