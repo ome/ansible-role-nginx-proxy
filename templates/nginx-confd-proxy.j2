@@ -52,7 +52,7 @@ server {
         root   /usr/share/nginx/html;
     }
 
-{% for item in (site.nginx_proxy_block_locations | default([nginx_proxy_block_locations])) %}
+{% for item in (site.nginx_proxy_block_locations | default(nginx_proxy_block_locations)) %}
     location {{ item }} {
         return 404;
     }
