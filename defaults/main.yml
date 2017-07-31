@@ -154,3 +154,6 @@ nginx_proxy_cache_use_stale: "error timeout invalid_header updating http_500 htt
 # Set this to True to ensure nginx_proxy_cachebuster_port takes effect, can
 # be per site
 nginx_proxy_cachebuster_enabled: True
+
+# Each line of list to be added to `/etc/nginx/nginx.conf` section `http`
+nginx_proxy_conf_http: []

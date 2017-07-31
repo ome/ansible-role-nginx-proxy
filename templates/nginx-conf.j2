@@ -47,11 +47,9 @@ http {
     sendfile        on;
     #tcp_nopush     on;
 
-    {% if nginx_proxy_conf_http is defined %}
-      {% for http_conf_line in nginx_proxy_conf_http %}
-{{ http_conf_line }}
-      {% endfor %}
-    {% endif %}
+    {% for http_conf_line in nginx_proxy_conf_http -%}
+    {{ http_conf_line }}
+    {%- endfor %}
 
     keepalive_timeout  65;
 
