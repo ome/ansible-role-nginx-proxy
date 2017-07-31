@@ -178,8 +178,8 @@ Advanced configuration: force https, use HSTS, enable HTTP2
         nginx_proxy_force_ssl: True
         nginx_proxy_hsts_age: 31536000
         nginx_proxy_conf_http:
-          - "client_max_body_size 500m;"
-          - "server_tokens off;"
+          - "client_max_body_size 500m"
+          - "server_tokens off"
 
 
 

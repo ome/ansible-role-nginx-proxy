@@ -155,5 +155,5 @@ nginx_proxy_cache_use_stale: "error timeout invalid_header updating http_500 htt
 # be per site
 nginx_proxy_cachebuster_enabled: True
 
-# Each line of list to be added to `/etc/nginx/nginx.conf` section `http`
+# Each line of list to be added as a directive to `http` context defined in `/etc/nginx/nginx.conf`, will have a `;` added to end of line.
 nginx_proxy_conf_http: []
