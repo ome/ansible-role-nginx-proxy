@@ -31,6 +31,7 @@ Role Variables: Main site
   You should ensure this is firewalled.
   You must also set `nginx_proxy_cachebuster_enabled` to enable this for individual sites.
 - `nginx_proxy_404`: The URI to show for 404 errors, default ''.
+- `nginx_proxy_conf_http`: add a list of strings to this variable to add each list item as additional lines to the `/etc/nginx/nginx.conf` file, for custom, advanced deployments. 
 
 SSL variables:
 
@@ -176,6 +177,11 @@ Advanced configuration: force https, use HSTS, enable HTTP2
         nginx_proxy_http2: True
         nginx_proxy_force_ssl: True
         nginx_proxy_hsts_age: 31536000
+        nginx_proxy_conf_http:
+          - "client_max_body_size 500m"
+          - "server_tokens off"
+
+
 
 
 Author Information

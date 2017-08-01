@@ -1,6 +1,6 @@
 
 user  nginx;
-worker_processes  {{ nginx_proxy_worker_processes }};
+worker_processes {{ nginx_proxy_worker_processes }};
 
 error_log  /var/log/nginx/error.log warn;
 pid        /var/run/nginx.pid;
@@ -46,6 +46,10 @@ http {
 
     sendfile        on;
     #tcp_nopush     on;
+
+    {% for http_conf_line in nginx_proxy_conf_http -%}
+    {{ http_conf_line }};
+    {%- endfor %}
 
     keepalive_timeout  65;
 
