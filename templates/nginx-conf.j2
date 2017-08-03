@@ -45,15 +45,12 @@ http {
     access_log  /var/log/nginx/access.log  {{ nginx_proxy_log_format }};
 
     sendfile        on;
-    #tcp_nopush     on;
 
     {% for http_conf_line in nginx_proxy_conf_http -%}
     {{ http_conf_line }};
     {%- endfor %}
 
     keepalive_timeout  65;
-
-    #gzip  on;
 
     include /etc/nginx/conf.d/*.conf;
 }
