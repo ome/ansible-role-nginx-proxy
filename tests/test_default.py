@@ -28,3 +28,16 @@ def test_redirects(Command, uri, expecturi, expectcode):
 def test_get_alias(Command):
     out = Command.check_output("curl http://localhost/default/")
     assert '<title>Welcome to nginx!</title>' in out
+
+
+@pytest.mark.parametrize("path", [
+    'nginx.conf',
+    'conf.d',
+    'stream-conf.d',
+])
+def test_compare_config(Command, path):
+    # Check the exit code separately so that the diff is printed out first
+    c = Command('diff -Nur /root/etc-nginx/%s /etc/nginx/%s' % (
+        path, path))
+    assert c.stdout == ''
+    assert c.rc == 0
