@@ -1,6 +1,6 @@
 server {
 {% if (site.nginx_proxy_listen_http | default(nginx_proxy_listen_http)) %}
-    listen       {{ nginx_proxy_listen_http }}
+    listen       {{ site.nginx_proxy_listen_http | default(nginx_proxy_listen_http) }}
 {%   if (site.nginx_proxy_is_default | default(False)) %}
       default_server
 {%   endif %};
