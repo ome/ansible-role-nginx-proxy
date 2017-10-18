@@ -137,7 +137,7 @@ Role Variables: Multiple sites
 
 - `nginx_proxy_sites`: Additional sites can be configured by creating an array of dictionaries overriding the above "Main site" parameters.
   The default: `nginx_proxy_sites: { nginx_proxy_is_default: True }` mean a single site will be created using the parameters defined above.
-  Most parameters are supported in site specific confiugrations with the exception of those named `nginx_proxy_*cache*`, and `nginx_proxy_redirect_map`.
+  Most parameters are supported in site specific configurations with the exception of those named `nginx_proxy_*cache*`, and `nginx_proxy_redirect_map`.
   One site-specific additional parameter is supported:
   - `nginx_proxy_is_default`: If `True` this is the default Nginx site, default `False`.
 
