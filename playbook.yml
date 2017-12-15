@@ -72,6 +72,10 @@
             location: /other
             server: http://other
             cache_validity: 1d
+          - name: limitget
+            location: /limitget
+            server: http://other
+            limit_methods: GET HEAD
         - nginx_proxy_server_name: nocache
           nginx_proxy_cachebuster_enabled: False
           nginx_proxy_listen_http: 8009
