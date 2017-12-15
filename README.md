@@ -55,6 +55,7 @@ Backend servers:
 - `nginx_proxy_backends`: List of dictionaries of backend servers with fields
   - `name`: A variable name for proxies using dynamic IP (ignored for static IPs)
   - `location`: The URL location
+  - `limit_methods`: Limit to these HTTP methods only, default all
   - `server`: The backend server including scheme
   - `dynamic`: If `True` lookup IP on every request, default `False` (only lookup at startup).
   - `cache_validity`: The time that an object should be cached for, if omitted caching is disabled for this backend

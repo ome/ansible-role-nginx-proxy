@@ -109,9 +109,19 @@ server {
 {%   if item.dynamic | default(False) %}
         # To force dynamic DNS lookups need to use a variable
         set $backend_{{ item.name }} "{{ item.server }}";
+{%     if item.limit_methods | default('') | length > 0 %}
+        limit_except {{ item.limit_methods }} {
+            deny all;
+        }
+{%     endif %}
         proxy_pass $backend_{{ item.name }};
         proxy_redirect $backend_{{ item.name }} $scheme://$server_name;
 {%   else %}
+{%     if item.limit_methods | default('') | length > 0 %}
+        limit_except {{ item.limit_methods }} {
+            deny all;
+        }
+{%     endif %}
         proxy_pass {{ item.server }};
         proxy_redirect {{ item.server }} $scheme://$server_name;
 {%   endif %}
@@ -165,6 +175,7 @@ server {
 {%   if 'host_header' in item %}
         proxy_set_header Host {{ item.host_header }};
 {%   endif %}
+
     }
 
 {% endfor %}
