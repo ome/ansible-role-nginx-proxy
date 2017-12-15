@@ -33,7 +33,7 @@
         - 127.0.2.1
       - name: other
         servers:
-        - 127.0.3.1
+        - www.openmicroscopy.org
       nginx_proxy_backends:
       - name: omeroreadonly
         location: /cached
@@ -69,12 +69,12 @@
           nginx_proxy_cachebuster_enabled: True
           nginx_proxy_backends:
           - name: other
-            location: /other
-            server: http://other
+            location: /other/
+            server: http://other/
             cache_validity: 1d
           - name: limitget
-            location: /limitget
-            server: http://other
+            location: /limitget/
+            server: http://other/
             limit_methods: GET HEAD
         - nginx_proxy_server_name: nocache
           nginx_proxy_cachebuster_enabled: False
