@@ -8,6 +8,10 @@
 # Number of worker processes, use auto to set this to the number of CPUs
 nginx_proxy_worker_processes: 1
 
+# Maximum number of simultaneous connections that can be opened by a worker
+# process
+nginx_proxy_worker_connections: 1024
+
 # Format for access.log, see templates/nginx-conf.j2 for predefined formats
 nginx_proxy_log_format: main_timed_cache
 
