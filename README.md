@@ -17,6 +17,7 @@ Role Variables: Main Nginx configuration
 ----------------------------------------
 
 - `nginx_proxy_worker_processes`: Number of worker processes, default 1
+- `nginx_proxy_worker_connections`: Number of worker connections, default 1024
 - `nginx_proxy_buffers`: Number and size of proxy buffers (optional)
 - `nginx_dynamic_proxy_resolvers`: If the proxied servers are referred to by hostname instead of IP addresses you must provide at least one DNS server
 
