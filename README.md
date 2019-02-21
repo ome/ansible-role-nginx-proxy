@@ -125,7 +125,7 @@ Caching:
   - `match`: Match in nginx_proxy_cache_key
   - `key`: The cache key
 `nginx_proxy_cache_key` is always included as the default.
-- `nginx_proxy_cache_use_stale`: Situations in which stale cache results should be returned, see `defaults/main.yml` for default
+- `nginx_proxy_cache_use_stale`: Situations in which stale cache results should be returned, see `defaults/main.yml` for default, if enabled this will also turn on background updates.
 - `nginx_proxy_cache_lock_time`: Prevent multiple backend requests to the same object (subsequent requests will wait for the first to either return or time-out), default 1 minute
 - `nginx_proxy_cachebuster_enabled`: Set to `True` to enable cache-busting on port `nginx_proxy_cachebuster_port`
 
