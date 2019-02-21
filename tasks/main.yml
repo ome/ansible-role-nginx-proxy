@@ -2,7 +2,7 @@
 # tasks file for roles/nginx-proxy
 
 - name: nginx | main config
-  become: yes
+  become: true
   template:
     src: nginx-conf.j2
     dest: /etc/nginx/nginx.conf
@@ -23,8 +23,8 @@
 - include: nginx-proxy-sites.yml
 
 - name: nginx | start service
-  become: yes
+  become: true
   service:
-    enabled: yes
+    enabled: true
     name: nginx
     state: started
