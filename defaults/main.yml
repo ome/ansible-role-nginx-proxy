@@ -15,6 +15,9 @@ nginx_proxy_worker_connections: 1024
 # Format for access.log, see templates/nginx-conf.j2 for predefined formats
 nginx_proxy_log_format: main_timed_cache
 
+# Custom log format
+nginx_proxy_log_format_custom: ''
+
 # Array of dictionaries with per-site parameters (same as main site)
 nginx_proxy_sites:
   - nginx_proxy_is_default: true

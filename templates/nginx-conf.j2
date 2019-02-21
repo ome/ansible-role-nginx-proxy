@@ -43,6 +43,10 @@ http {
                       '"$http_user_agent" "$http_x_forwarded_for" '
                       '$request_time $upstream_response_time $upstream_cache_status $upstream_addr';
 
+    {% if nginx_proxy_log_format_custom | length > 0 -%}
+    log_format custom {{ nginx_proxy_log_format_custom }};
+    {% endif -%}
+
     access_log  /var/log/nginx/access.log  {{ nginx_proxy_log_format }};
 
     sendfile        on;
