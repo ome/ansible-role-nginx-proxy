@@ -17,7 +17,7 @@ nginx_proxy_log_format: main_timed_cache
 
 # Array of dictionaries with per-site parameters (same as main site)
 nginx_proxy_sites:
-- nginx_proxy_is_default: True
+  - nginx_proxy_is_default: true
 
 # URI for 404 errors
 nginx_proxy_404:
@@ -35,13 +35,13 @@ nginx_proxy_cachebuster_port:
 nginx_proxy_server_name: "$hostname"
 
 # Enable SSL?
-nginx_proxy_ssl: False
+nginx_proxy_ssl: false
 
 # Enable HTTP2 (ignore is nginx_proxy_ssl False)?
-nginx_proxy_http2: False
+nginx_proxy_http2: false
 
 # Redirect all http requests to https?
-nginx_proxy_force_ssl: False
+nginx_proxy_force_ssl: false
 
 # Optional vars:
 
@@ -73,38 +73,38 @@ nginx_proxy_buffers:
 # https://www.jethrocarr.com/2013/11/02/nginx-reverse-proxies-and-dns-resolution/
 # http://forum.nginx.org/read.php?2,215830,215832#msg-215832
 nginx_proxy_backends: []
-#- name: test # Required if dynamic: True
-#  location: /prefix
-#  server: http://example.org
-#  dynamic: False
-#  cache_validity: 1d
-#  websockets: False
+# - name: test # Required if dynamic: True
+#   location: /prefix
+#   server: http://example.org
+#   dynamic: False
+#   cache_validity: 1d
+#   websockets: False
 
 # List of dicts of upstream servers
 nginx_proxy_upstream_servers: []
 
 # List of redirections
 nginx_proxy_redirect_map: []
-#- match: /old/url
-#  dest: /new/url
+# - match: /old/url
+#   dest: /new/url
 
 # List of locations to be passed to nginx_proxy_redirect_map, and http status
 nginx_proxy_redirect_map_locations: []
-#- location: /old
-#  code: 302
+# - location: /old
+#   code: 302
 
 # List of locations to be handled without using the map (no query $args)
 nginx_proxy_direct_locations: []
-#- location: /old
-#  redirect301: /new/url
-#  redirect302: /new/url
-#  index: index.html
+# - location: /old
+#   redirect301: /new/url
+#   redirect302: /new/url
+#   index: index.html
 
 # Locations which should be blocked
 nginx_proxy_block_locations: []
 
 # Set this to True if any proxies require websockets
-nginx_proxy_websockets_enable: False
+nginx_proxy_websockets_enable: false
 
 # List of dicts of backend streaming servers
 nginx_proxy_streams: []
@@ -119,7 +119,7 @@ nginx_proxy_cache_parent_path: /var/cache/nginx
 nginx_proxy_caches: []
 
 # Don't cache these URI patterns (list)
-nginx_proxy_cache_skip_uri: [ default ]
+nginx_proxy_cache_skip_uri: [default]
 # Cache these URI patterns (list)
 nginx_proxy_cache_match_uri: []
 # Don't cache these arg patterns (list)
@@ -135,7 +135,7 @@ nginx_proxy_set_header_host: "$host"
 nginx_proxy_forward_scheme_header:
 
 # Set to True to add X-Proxy-Cache* headers for debugging
-nginx_proxy_debug_cache_headers: False
+nginx_proxy_debug_cache_headers: false
 
 # Prevent multiple backend requests to the same object within this time
 nginx_proxy_cache_lock_time: 1m
@@ -153,11 +153,13 @@ nginx_proxy_cache_key:
 nginx_proxy_cache_key_map: []
 
 # Use stale cache if these situations are encountered
-nginx_proxy_cache_use_stale: "error timeout invalid_header updating http_500 http_502 http_503 http_504"
+nginx_proxy_cache_use_stale: >-
+  error timeout invalid_header updating http_500 http_502 http_503 http_504
 
 # Set this to True to ensure nginx_proxy_cachebuster_port takes effect, can
 # be per site
-nginx_proxy_cachebuster_enabled: True
+nginx_proxy_cachebuster_enabled: true
 
-# Each line of list to be added as a directive to `http` context defined in `/etc/nginx/nginx.conf`, will have a `;` added to end of line.
+# Each line of list to be added as a directive to `http` context defined in
+# `/etc/nginx/nginx.conf`, will have a `;` added to end of line.
 nginx_proxy_conf_http: []

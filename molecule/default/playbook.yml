@@ -1,0 +1,105 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: ansible-role-nginx-proxy
+      nginx_proxy_direct_locations:
+        - location: /direct
+          redirect301: /redirect
+        - location: /redirect/
+          redirect302: /default
+        - location: "^~ /default"
+          alias: /usr/share/nginx/html
+      nginx_proxy_redirect_map:
+        - match: default
+          dest: /
+        - match: /map?search=abc1
+          dest: /redirectmap?query=def2
+        - match: ~/map
+          dest: /redirectmap
+      nginx_proxy_redirect_map_locations:
+        - location: "~ ^/map($|/)"
+          code: 302
+
+      nginx_proxy_websockets_enable: true
+      nginx_proxy_upstream_servers:
+        - name: omeroreadonly
+          balance: ip_hash
+          servers:
+            - 127.0.1.1
+            - 127.0.1.2
+        - name: nocache
+          servers:
+            - 127.0.2.1
+        - name: other
+          servers:
+            - www.openmicroscopy.org
+      nginx_proxy_backends:
+        - name: omeroreadonly
+          location: /cached
+          server: http://omeroreadonly
+          cache_validity: 1d
+          websockets: true
+          read_timeout: 86400
+          host_header: "$host"
+      nginx_proxy_forward_scheme_header: X-Forwarded-Proto-Omero-Web
+
+      nginx_proxy_cachebuster_port: 9000
+      nginx_proxy_cachebuster_enabled: false
+      nginx_proxy_cache_key: "$request_uri"
+      nginx_proxy_cache_key_map:
+        - match: "~^(.+[\\?\\&])_=\\d+(.*)$"
+          key: "$1$2"
+      nginx_proxy_cache_ignore_headers: '"Set-Cookie" "Vary" "Expires"'
+      nginx_proxy_cache_hide_headers:
+        - Set-Cookie
+      nginx_proxy_cache_match_uri:
+        - '"~/api/*"'
+      nginx_proxy_caches:
+        - name: default
+          maxsize: 1g
+          keysize: 1m
+          inactive: 180d
+          match:
+            - default
+
+      nginx_proxy_sites:
+        - nginx_proxy_is_default: true
+        - nginx_proxy_server_name: other
+          nginx_proxy_cachebuster_enabled: true
+          nginx_proxy_backends:
+            - name: other
+              location: /other/
+              server: http://other/
+              cache_validity: 1d
+            - name: limitget
+              location: /limitget/
+              server: http://other/
+              limit_methods: GET HEAD
+        - nginx_proxy_server_name: nocache
+          nginx_proxy_cachebuster_enabled: false
+          nginx_proxy_listen_http: 8009
+          nginx_proxy_ssl: false
+          nginx_proxy_backends:
+            - name: nocache
+              location: /nocache
+              server: http://nocache
+              read_timeout: 600
+
+      nginx_proxy_block_locations:
+        - "^~ /blocked"
+
+      nginx_proxy_streams:
+        - name: idrrsync
+          port: 873
+          servers:
+            - "127.0.100.1:873 max_fails=3 fail_timeout=30s"
+          connect_timeout: 1s
+          timeout: 3s
+
+  tasks:
+    - name: Copy reference files
+      become: true
+      copy:
+        dest: /root/etc-nginx/
+        src: etc-nginx/

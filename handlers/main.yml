@@ -2,7 +2,7 @@
 # Handler for nginx
 
 - name: restart nginx
-  become: yes
+  become: true
   service:
     name: nginx
     state: restarted

@@ -3,10 +3,12 @@
 
 # See http://serverfault.com/a/337893
 - name: nginx | proxy config
-  become: yes
+  become: true
   template:
     src: nginx-confd-proxy.j2
-    dest: /etc/nginx/conf.d/proxy-{{ site.nginx_proxy_server_name | default('default') }}.conf
+    dest: >-
+      /etc/nginx/conf.d/proxy-{{ site.nginx_proxy_server_name |
+      default('default') }}.conf
   notify:
     - restart nginx
   with_items: "{{ nginx_proxy_sites }}"
@@ -14,7 +16,7 @@
     loop_var: site
 
 - name: nginx | proxy upstream servers
-  become: yes
+  become: true
   template:
     src: nginx-confd-proxy-upstream.j2
     dest: /etc/nginx/conf.d/proxy-upstream.conf
@@ -22,27 +24,28 @@
     - restart nginx
 
 - name: nginx | create proxy ssl certificate directory
-  become: yes
+  become: true
   file:
     path: "{{ item.nginx_proxy_ssl_certificate | dirname }}"
     state: directory
   when: "item.nginx_proxy_ssl_certificate | default(None)"
   with_items:
-    - { nginx_proxy_ssl_certificate: "{{ nginx_proxy_ssl_certificate }}" }
+    - {nginx_proxy_ssl_certificate: "{{ nginx_proxy_ssl_certificate }}"}
     - "{{ nginx_proxy_sites }}"
 
 - name: nginx | create proxy ssl certificate key directory
-  become: yes
+  become: true
   file:
     path: "{{ item.nginx_proxy_ssl_certificate_key | dirname }}"
     state: directory
   when: "item.nginx_proxy_ssl_certificate_key | default(None)"
   with_items:
-    - { nginx_proxy_ssl_certificate_key: "{{ nginx_proxy_ssl_certificate_key }}" }
+    - {nginx_proxy_ssl_certificate_key:
+         "{{ nginx_proxy_ssl_certificate_key }}"}
     - "{{ nginx_proxy_sites }}"
 
 - name: nginx | copy proxy ssl certificate
-  become: yes
+  become: true
   copy:
     dest: "{{ item.nginx_proxy_ssl_certificate }}"
     group: root
@@ -51,15 +54,16 @@
     src: "{{ item.nginx_proxy_ssl_certificate_source_path }}"
   when: "item.nginx_proxy_ssl_certificate_source_path | default(None)"
   with_items:
-    - { nginx_proxy_ssl_certificate: "{{ nginx_proxy_ssl_certificate }}",
-        nginx_proxy_ssl_certificate_source_path: "{{ nginx_proxy_ssl_certificate_source_path }}" }
+    - {nginx_proxy_ssl_certificate: "{{ nginx_proxy_ssl_certificate }}",
+       nginx_proxy_ssl_certificate_source_path:
+         "{{ nginx_proxy_ssl_certificate_source_path }}"}
     - "{{ nginx_proxy_sites }}"
   notify:
     - restart nginx
-  no_log: True
+  no_log: true
 
 - name: nginx | copy proxy ssl certificate key
-  become: yes
+  become: true
   copy:
     dest: "{{ item.nginx_proxy_ssl_certificate_key }}"
     group: root
@@ -68,9 +72,11 @@
     src: "{{ item.nginx_proxy_ssl_certificate_key_source_path }}"
   when: "item.nginx_proxy_ssl_certificate_key_source_path | default(None)"
   with_items:
-    - { nginx_proxy_ssl_certificate_key: "{{ nginx_proxy_ssl_certificate_key }}",
-        nginx_proxy_ssl_certificate_key_source_path: "{{ nginx_proxy_ssl_certificate_key_source_path }}" }
+    - {nginx_proxy_ssl_certificate_key:
+         "{{ nginx_proxy_ssl_certificate_key }}",
+       nginx_proxy_ssl_certificate_key_source_path:
+         "{{ nginx_proxy_ssl_certificate_key_source_path }}"}
     - "{{ nginx_proxy_sites }}"
   notify:
     - restart nginx
-  no_log: True
+  no_log: true

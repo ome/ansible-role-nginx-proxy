@@ -2,15 +2,15 @@
 # tasks file for roles/nginx-proxy selinux
 
 - name: nginx | selinux allow network connect
-  become: yes
+  become: true
   seboolean:
     name: httpd_can_network_connect
-    state: yes
-    persistent: yes
+    state: true
+    persistent: true
 
 # This may not work if the port already has a different setype assigned to it
 - name: nginx | stream selinux ports
-  become: yes
+  become: true
   seport:
     ports: "{{ item.port }}"
     proto: tcp
