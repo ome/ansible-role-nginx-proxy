@@ -1,2 +1,3 @@
+---
 - src: openmicroscopy.selinux-utils
 - src: openmicroscopy.nginx
