@@ -32,7 +32,8 @@ Role Variables: Main site
   You should ensure this is firewalled.
   You must also set `nginx_proxy_cachebuster_enabled` to enable this for individual sites.
 - `nginx_proxy_404`: The URI to show for 404 errors, default ''.
-- `nginx_proxy_conf_http`: add a list of strings to this variable to add each list item as additional lines to the `/etc/nginx/nginx.conf` file, for custom, advanced deployments. 
+- `nginx_proxy_log_format_custom`: Additional Nginx log format, will be named `custom`. This only adds the format, to use it as the default log format you should set `nginx_proxy_log_format: custom`.
+- `nginx_proxy_conf_http`: add a list of strings to this variable to add each list item as additional lines to the `/etc/nginx/nginx.conf` file, for custom, advanced deployments.
 
 SSL variables:
 
@@ -125,7 +126,7 @@ Caching:
   - `match`: Match in nginx_proxy_cache_key
   - `key`: The cache key
 `nginx_proxy_cache_key` is always included as the default.
-- `nginx_proxy_cache_use_stale`: Situations in which stale cache results should be returned, see `defaults/main.yml` for default
+- `nginx_proxy_cache_use_stale`: Situations in which stale cache results should be returned, see `defaults/main.yml` for default, if enabled this will also turn on background updates.
 - `nginx_proxy_cache_lock_time`: Prevent multiple backend requests to the same object (subsequent requests will wait for the first to either return or time-out), default 1 minute
 - `nginx_proxy_cachebuster_enabled`: Set to `True` to enable cache-busting on port `nginx_proxy_cachebuster_port`
 

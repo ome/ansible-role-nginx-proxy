@@ -20,28 +20,31 @@ http {
     include       /etc/nginx/mime.types;
     default_type  application/octet-stream;
 
-    log_format  main
-                      '$server_name $remote_addr - $remote_user [$time_local] "$host" "$request" '
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
                       '$status $body_bytes_sent "$http_referer" '
                       '"$http_user_agent" "$http_x_forwarded_for"';
 
     log_format  main_timed
-                      '$server_name $remote_addr - $remote_user [$time_local] "$host" "$request" '
+                      '$remote_addr - $remote_user [$time_local] "$request" '
                       '$status $body_bytes_sent "$http_referer" '
                       '"$http_user_agent" "$http_x_forwarded_for" '
                       '$request_time';
 
     log_format  main_timed_cache
-                      '$server_name $remote_addr - $remote_user [$time_local] "$host" "$request" '
+                      '$remote_addr - $remote_user [$time_local] "$request" '
                       '$status $body_bytes_sent "$http_referer" '
                       '"$http_user_agent" "$http_x_forwarded_for" '
                       '$request_time $upstream_cache_status';
 
     log_format  main_timed_cache_upstream
-                      '$server_name $remote_addr - $remote_user [$time_local] "$host" "$request" '
+                      '$remote_addr - $remote_user [$time_local] "$request" '
                       '$status $body_bytes_sent "$http_referer" '
                       '"$http_user_agent" "$http_x_forwarded_for" '
-                      '$request_time $upstream_response_time $upstream_cache_status $upstream_addr';
+                      '$request_time $upstream_cache_status $upstream_addr';
+
+    {% if nginx_proxy_log_format_custom | length > 0 -%}
+    log_format custom {{ nginx_proxy_log_format_custom }};
+    {% endif -%}
 
     access_log  /var/log/nginx/access.log  {{ nginx_proxy_log_format }};
 
