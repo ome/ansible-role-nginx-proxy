@@ -33,7 +33,6 @@ Role Variables: Main site
   You must also set `nginx_proxy_cachebuster_enabled` to enable this for individual sites.
 - `nginx_proxy_404`: The URI to show for 404 errors, default ''.
 - `nginx_proxy_log_format_custom`: Additional Nginx log format, will be named `custom`. This only adds the format, to use it as the default log format you should set `nginx_proxy_log_format: custom`.
-- `nginx_proxy_conf_http`: add a list of strings to this variable to add each list item as additional lines to the `/etc/nginx/nginx.conf` file, for custom, advanced deployments.
 
 SSL variables:
 
@@ -133,6 +132,10 @@ Caching:
 Warning: for convenience, put `nginx_proxy_cache_parent_path` on a separate partition (calculate size of the partition based on `max_size` set on disk caches).
 
 Warning: If SELinux is enabled you may need to update your policy yourself to allow Nginx to bind to a non-standard port (typically 80, 81, 443, 488, 8008, 8009, 8443, 9000 are allowed).
+
+Additional custom configuration:
+
+- `nginx_proxy_conf_http`: Additional directives to be added to top-level `http` context
 
 
 Role Variables: Multiple sites
