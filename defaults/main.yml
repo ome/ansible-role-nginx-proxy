@@ -178,3 +178,12 @@ nginx_proxy_redirect_map: []
 
 # List of dicts of backend streaming servers
 nginx_proxy_streams: []
+
+# List of custom Nginx maps for use in other custom configuration
+# http://nginx.org/en/docs/http/ngx_http_map_module.html
+nginx_proxy_additional_maps: []
+# - from: sourcevariable
+#   to: destvariable
+#   mapvalues:
+#     - default value0
+#     - key1 value1

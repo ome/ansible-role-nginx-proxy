@@ -63,6 +63,13 @@
           match:
             - default
 
+      nginx_proxy_additional_maps:
+        - from: $http_origin
+          to: $allow_origin
+          mapvalues:
+            - "default *"
+            - "~. $http_origin"
+
       nginx_proxy_sites:
         - nginx_proxy_is_default: true
         - nginx_proxy_server_name: other
@@ -77,7 +84,7 @@
               server: http://other/
               limit_methods: GET HEAD
           nginx_proxy_additional_directives:
-            - "add_header Access-Control-Allow-Origin *"
+            - "add_header Access-Control-Allow-Origin $allow_origin"
             - "location = /testing/additional/block { return 404; }"
 
         - nginx_proxy_server_name: nocache
