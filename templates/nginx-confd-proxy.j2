@@ -181,4 +181,9 @@ server {
 
 {% endfor %}
 
+{% for item in (site.nginx_proxy_additional_directives | default(nginx_proxy_additional_directives)) %}
+    {{ item }}{% if item[-1] != '}' %};{% endif %}
+
+{% endfor %}
+
 }

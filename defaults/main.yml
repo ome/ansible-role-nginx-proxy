@@ -116,6 +116,10 @@ nginx_proxy_debug_cache_headers: false
 # be per site
 nginx_proxy_cachebuster_enabled: true
 
+# List of additional directives to be added to the proxy server context, can
+# be per site
+nginx_proxy_additional_directives: []
+
 
 ######################################################################
 # Global caching parameters

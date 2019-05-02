@@ -76,6 +76,10 @@
               location: /limitget/
               server: http://other/
               limit_methods: GET HEAD
+          nginx_proxy_additional_directives:
+            - "add_header Access-Control-Allow-Origin *"
+            - "location = /testing/additional/block { return 404; }"
+
         - nginx_proxy_server_name: nocache
           nginx_proxy_cachebuster_enabled: false
           nginx_proxy_listen_http: 8009
