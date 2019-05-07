@@ -12,6 +12,8 @@
 - include: nginx-selinux.yml
   when: selinux_enabled
 
+- include: nginx-additional.yml
+
 - include: nginx-cache.yml
 
 - include: nginx-websockets.yml

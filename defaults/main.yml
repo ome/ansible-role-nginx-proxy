@@ -25,9 +25,8 @@ nginx_proxy_sites:
 # URI for 404 errors
 nginx_proxy_404:
 
-# Requests on this port will force a cache refresh, global configuration
-# You must also set nginx_proxy_cachebuster_enabled: True
-nginx_proxy_cachebuster_port:
+# Additional directives to be added to http context
+nginx_proxy_conf_http: []
 
 
 ######################################################################
@@ -83,14 +82,6 @@ nginx_proxy_backends: []
 #   cache_validity: 1d
 #   websockets: False
 
-# List of dicts of upstream servers
-nginx_proxy_upstream_servers: []
-
-# List of redirections
-nginx_proxy_redirect_map: []
-# - match: /old/url
-#   dest: /new/url
-
 # List of locations to be passed to nginx_proxy_redirect_map, and http status
 nginx_proxy_redirect_map_locations: []
 # - location: /old
@@ -109,13 +100,36 @@ nginx_proxy_block_locations: []
 # Set this to True if any proxies require websockets
 nginx_proxy_websockets_enable: false
 
-# List of dicts of backend streaming servers
-nginx_proxy_streams: []
-
 # Listen on this port, set to 0 to disable
 nginx_proxy_listen_http: 80
 
-# Caching parameters
+# Pass this hostname to the backend proxy, default is automatic
+nginx_proxy_set_header_host: "$host"
+
+# Set a trusted header containing the scheme to be passed to the backend
+nginx_proxy_forward_scheme_header:
+
+# Set to True to add X-Proxy-Cache* headers for debugging
+nginx_proxy_debug_cache_headers: false
+
+# Set this to True to ensure nginx_proxy_cachebuster_port takes effect, can
+# be per site
+nginx_proxy_cachebuster_enabled: true
+
+# List of additional directives to be added to the proxy server context, can
+# be per site
+nginx_proxy_additional_directives: []
+
+
+######################################################################
+# Global caching parameters
+######################################################################
+
+# Requests on this port will force a cache refresh, global configuration
+# You must also set nginx_proxy_cachebuster_enabled: True
+nginx_proxy_cachebuster_port:
+
+
 # Parent path of Nginx disk caches
 nginx_proxy_cache_parent_path: /var/cache/nginx
 # List of caches
@@ -129,16 +143,6 @@ nginx_proxy_cache_match_uri: []
 nginx_proxy_cache_skip_arg: []
 # Cache these arg patterns (list)
 nginx_proxy_cache_match_arg: []
-
-
-# Pass this hostname to the backend proxy, default is automatic
-nginx_proxy_set_header_host: "$host"
-
-# Set a trusted header containing the scheme to be passed to the backend
-nginx_proxy_forward_scheme_header:
-
-# Set to True to add X-Proxy-Cache* headers for debugging
-nginx_proxy_debug_cache_headers: false
 
 # Prevent multiple backend requests to the same object within this time
 nginx_proxy_cache_lock_time: 1m
@@ -159,10 +163,27 @@ nginx_proxy_cache_key_map: []
 nginx_proxy_cache_use_stale: >-
   error timeout invalid_header updating http_500 http_502 http_503 http_504
 
-# Set this to True to ensure nginx_proxy_cachebuster_port takes effect, can
-# be per site
-nginx_proxy_cachebuster_enabled: true
 
-# Each line of list to be added as a directive to `http` context defined in
-# `/etc/nginx/nginx.conf`, will have a `;` added to end of line.
-nginx_proxy_conf_http: []
+######################################################################
+# Other global defaults
+######################################################################
+
+# List of dicts of upstream servers
+nginx_proxy_upstream_servers: []
+
+# List of redirections
+nginx_proxy_redirect_map: []
+# - match: /old/url
+#   dest: /new/url
+
+# List of dicts of backend streaming servers
+nginx_proxy_streams: []
+
+# List of custom Nginx maps for use in other custom configuration
+# http://nginx.org/en/docs/http/ngx_http_map_module.html
+nginx_proxy_additional_maps: []
+# - from: sourcevariable
+#   to: destvariable
+#   mapvalues:
+#     - default value0
+#     - key1 value1

@@ -1,0 +1,9 @@
+# Additional Nginx maps
+{% for item in nginx_proxy_additional_maps %}
+map {{ item.from }} {{ item.to }}
+{
+    {% for mapvalue in item.mapvalues %}
+    {{ mapvalue }};
+    {% endfor %}
+}
+{% endfor %}
