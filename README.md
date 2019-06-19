@@ -2,7 +2,7 @@ Nginx Proxy
 ===========
 
 [![Build Status](https://travis-ci.org/ome/ansible-role-nginx-proxy.svg)](https://travis-ci.org/ome/ansible-role-nginx-proxy)
-[![Ansible Role](https://img.shields.io/ansible/role/14769.svg)](https://galaxy.ansible.com/ome/nginx_proxy/)
+[![Ansible Role](https://img.shields.io/ansible/role/41402.svg)](https://galaxy.ansible.com/ome/nginx_proxy/)
 
 Install Nginx for use as a front-end proxy.
 
