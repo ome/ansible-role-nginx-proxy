@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: nginx_proxy
   author: ome-devel@lists.openmicroscopy.org.uk
   description: Nginx as a front-end proxy
   company: Open Microscopy Environment
@@ -9,8 +10,8 @@ galaxy_info:
     - name: EL
       versions:
         - 7
-  galaxy_tags: []
+  galaxy_tags: ['nginx']
 
 dependencies:
-  - role: openmicroscopy.selinux-utils
-  - role: openmicroscopy.nginx
+  - role: ome.selinux_utils
+  - role: ome.nginx

@@ -1,8 +1,8 @@
 Nginx Proxy
 ===========
 
-[![Build Status](https://travis-ci.org/openmicroscopy/ansible-role-nginx-proxy.svg)](https://travis-ci.org/openmicroscopy/ansible-role-nginx-proxy)
-[![Ansible Role](https://img.shields.io/ansible/role/14769.svg)](https://galaxy.ansible.com/openmicroscopy/nginx-proxy/)
+[![Build Status](https://travis-ci.org/ome/ansible-role-nginx-proxy.svg)](https://travis-ci.org/ome/ansible-role-nginx-proxy)
+[![Ansible Role](https://img.shields.io/ansible/role/14769.svg)](https://galaxy.ansible.com/ome/nginx_proxy/)
 
 Install Nginx for use as a front-end proxy.
 
@@ -159,7 +159,7 @@ Proxy:
 
     - hosts: localhost
       roles:
-      - role: nginx_proxy
+      - role: ome.nginx_proxy
         nginx_proxy_backends:
         - location: /
           server: http://a.internal
@@ -172,7 +172,7 @@ Advanced configuration: force https, use HSTS, enable HTTP2
 
     - hosts: localhost
       roles:
-      - role: nginx_proxy
+      - role: ome.nginx_proxy
         nginx_proxy_backends:
         - location: /
           server: http://a.internal
