@@ -82,7 +82,7 @@
             - name: limitget
               location: /limitget/
               server: http://other/
-              limit_methods: GET HEAD
+              limit_methods: GET
           nginx_proxy_additional_directives:
             - "add_header Access-Control-Allow-Origin $allow_origin"
             - "location = /testing/additional/block { return 404; }"
