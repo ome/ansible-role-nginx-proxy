@@ -63,6 +63,8 @@ Backend servers:
   - `websockets`: If `True` enable proxying of websockets, default `False`
   - `read_timeout`: The proxy read timeout, optional
   - `host_header`: Optionally set the Host header, you shouldn't need to set this unless you're trying to work around bugs in applications
+  - `maintenance_flag`: Name of an optional local flag file used to indicate the backend is undergoing maintenance, if this file exists `maintenance_uri` will be returned for this location with a `503` error
+  - `maintenance_uri`: URI to a maintenance page that will be returned if the `maintenance_flag` file exists
 
 - `nginx_proxy_upstream_servers`: List of dictionaries of backend servers used for load-balancing with fields:
   - `name`: The name of the load-balancing group (can be referenced in `nginx_proxy_backends.[].server`)
@@ -93,8 +95,6 @@ Redirection:
   - `index`: Nginx index locations
   - `root`: Root directory for requests
   - `alias`: Alias this directory to location
-  - `maintenance_flag`: Name of an optional local flag file used to indicate a location is undergoing maintenance, if this file exists `maintenance_uri` will be returned for this location with a `503` error
-  - `maintenance_uri`: URI to a maintenance page that will be returned if the `maintenance_flag` file exists
 
 - `nginx_proxy_block_locations`: List of locations which should be blocked (404)
 

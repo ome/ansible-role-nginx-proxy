@@ -10,10 +10,6 @@
           redirect302: /default
         - location: "^~ /default"
           alias: /usr/share/nginx/html
-        - location: /maintenance-test
-          alias: /usr/share/nginx/html
-          maintenance_flag: /srv/maintenance-test.flag
-          maintenance_uri: /default/maintenance-page.html
       nginx_proxy_redirect_map:
         - match: default
           dest: /
@@ -46,6 +42,12 @@
           websockets: true
           read_timeout: 86400
           host_header: "$host"
+        - name: maintenance-test
+          location: /maintenance-test
+          server: http://other
+          maintenance_flag: /srv/maintenance-test.flag
+          maintenance_uri: /default/maintenance-page.html
+
       nginx_proxy_forward_scheme_header: X-Forwarded-Proto-Omero-Web
 
       nginx_proxy_cachebuster_port: 9000
