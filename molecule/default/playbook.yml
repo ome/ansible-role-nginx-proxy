@@ -115,6 +115,18 @@
           timeout: 3s
 
   tasks:
+    - name: Create maintenance page
+      become: true
+      copy:
+        content: |
+          <!doctype html>
+          <html lang=en>
+          <head>
+          <title>Maintenance</title>
+          </head>
+          </html>
+        dest: /usr/share/nginx/html/maintenance-page.html
+
     - name: Copy reference files
       become: true
       copy:
