@@ -42,6 +42,12 @@
           websockets: true
           read_timeout: 86400
           host_header: "$host"
+        - name: maintenance-test
+          location: /maintenance-test
+          server: http://other
+          maintenance_flag: /srv/maintenance-test.flag
+          maintenance_uri: /default/maintenance-page.html
+
       nginx_proxy_forward_scheme_header: X-Forwarded-Proto-Omero-Web
 
       nginx_proxy_cachebuster_port: 9000
@@ -109,6 +115,18 @@
           timeout: 3s
 
   tasks:
+    - name: Create maintenance page
+      become: true
+      copy:
+        content: |
+          <!doctype html>
+          <html lang=en>
+          <head>
+          <title>Maintenance</title>
+          </head>
+          </html>
+        dest: /usr/share/nginx/html/maintenance-page.html
+
     - name: Copy reference files
       become: true
       copy:

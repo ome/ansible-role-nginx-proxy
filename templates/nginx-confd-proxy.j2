@@ -177,6 +177,13 @@ server {
         proxy_set_header Host {{ item.host_header }};
 {%   endif %}
 
+{%   if 'maintenance_flag' in item %}
+        if (-f {{ item.maintenance_flag }}) {
+            return 503;
+        }
+        error_page 503 {{ item.maintenance_uri }};
+{%   endif %}
+
     }
 
 {% endfor %}

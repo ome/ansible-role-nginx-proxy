@@ -52,3 +52,15 @@ def test_compare_config(host, path):
         path, path))
     assert c.stdout == ''
     assert c.rc == 0
+
+
+def test_maintenance_page(host):
+    flag = '/srv/maintenance-test.flag'
+    host.check_output('rm -f %s', flag)
+    out1 = host.check_output('curl -I http://localhost/maintenance-test/')
+    assert 'HTTP/1.1 404' in out1
+    host.check_output('touch %s', flag)
+    out2 = host.check_output('curl -i http://localhost/maintenance-test/')
+    assert 'HTTP/1.1 503' in out2
+    assert '<title>Maintenance</title>' in out2
+    host.check_output('rm -f %s', flag)
