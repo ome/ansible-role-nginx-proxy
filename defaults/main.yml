@@ -93,6 +93,10 @@ nginx_proxy_direct_locations: []
 #   redirect301: /new/url
 #   redirect302: /new/url
 #   index: index.html
+#   root: /srv/www/root
+#   alias: /srv/alias
+#   custom:
+#   - default_type text/html
 
 # Locations which should be blocked
 nginx_proxy_block_locations: []

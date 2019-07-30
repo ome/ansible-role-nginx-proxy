@@ -101,6 +101,9 @@ server {
 {%   if 'alias' in item %}
         alias {{ item.alias }};
 {%   endif %}
+{%   for custom in (item.custom | default([])) %}
+        {{ custom }};
+{%   endfor %}
     }
 {% endfor %}
 

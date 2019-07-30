@@ -95,6 +95,7 @@ Redirection:
   - `index`: Nginx index locations
   - `root`: Root directory for requests
   - `alias`: Alias this directory to location
+  - `custom`: List of additional configuration directives
 
 - `nginx_proxy_block_locations`: List of locations which should be blocked (404)
 

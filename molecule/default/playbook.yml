@@ -89,6 +89,11 @@
               location: /limitget/
               server: http://other/
               limit_methods: GET HEAD
+          nginx_proxy_direct_locations:
+            - location: "^~ /custom"
+              alias: /usr/share/nginx/html
+              custom:
+                - "try_files $request_uri $uri =404"
           nginx_proxy_additional_directives:
             - "add_header Access-Control-Allow-Origin $allow_origin"
             - "location = /testing/additional/block { return 404; }"
