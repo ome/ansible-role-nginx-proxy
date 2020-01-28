@@ -17,3 +17,23 @@
     setype: http_port_t
     state: present
   with_items: "{{ nginx_proxy_streams }}"
+
+# /etc/selinux/targeted/contexts/files/file_contexts is missing
+# /var/cache/nginx(/.*)? so Nginx may not be able to  modify the cache
+- name: nginx | selinux cache context policy
+  become: true
+  sefcontext:
+    target: >-
+      {{ nginx_proxy_cache_parent_path | regex_replace('\\/$', '') }}(/.*)?
+    setype: httpd_cache_t
+    state: present
+
+- name: nginx | restore cache context
+  become: true
+  command: >-
+    /usr/sbin/restorecon -R -v
+    {{ ansible_check_mode | ternary('-n', '') }}
+    {{ nginx_proxy_cache_parent_path }}
+  register: result
+  check_mode: false
+  changed_when: 'result.stdout != ""'
