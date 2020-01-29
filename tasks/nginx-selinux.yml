@@ -19,7 +19,7 @@
   with_items: "{{ nginx_proxy_streams }}"
 
 # /etc/selinux/targeted/contexts/files/file_contexts is missing
-# /var/cache/nginx(/.*)? so Nginx may not be able to  modify the cache
+# /var/cache/nginx(/.*)? so Nginx may not be able to modify the cache
 - name: nginx | selinux cache context policy
   become: true
   sefcontext:
