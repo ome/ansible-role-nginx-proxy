@@ -13,7 +13,7 @@
 - name: nginx | fix cache directory permissions
   become: true
   file:
-    dest: /var/cache/nginx
+    dest: "{{ nginx_proxy_cache_parent_path }}"
     group: nginx
     mode: 0750
     owner: nginx
