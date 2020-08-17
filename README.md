@@ -161,38 +161,41 @@ Proxy:
 - http://localhost/ to http://a.internal/ statically, make a single DNS request for `a.internal` at the start
 - http://localhost/b to http://b.internal/subdir dynamically, making a DNS request for `b.internal` on every request
 
-    - hosts: localhost
-      roles:
-      - role: ome.nginx_proxy
-        nginx_proxy_backends:
-        - location: /
-          server: http://a.internal
-        - name: testb
-          location: /b
-          server: http://b.internal/subdir
-          dynamic: True
+```yml
+- hosts: localhost
+  roles:
+  - role: ome.nginx_proxy
+    nginx_proxy_backends:
+    - location: /
+      server: http://a.internal
+    - name: testb
+      location: /b
+      server: http://b.internal/subdir
+      dynamic: True
+```
 
 Advanced configuration: force https, use HSTS, enable HTTP2
 
-    - hosts: localhost
-      roles:
-      - role: ome.nginx_proxy
-        nginx_proxy_backends:
-        - location: /
-          server: http://a.internal
-          cache_validity: 1h
-        nginx_proxy_worker_processes: 4
-        nginx_proxy_404: '/404.html'
-        nginx_proxy_ssl: True
-        nginx_proxy_ssl_certificate: /etc/nginx/ssl/website.crt
-        nginx_proxy_ssl_certificate_key: /etc/nginx/ssl/website.key
-        nginx_proxy_http2: True
-        nginx_proxy_force_ssl: True
-        nginx_proxy_hsts_age: 31536000
-        nginx_proxy_conf_http:
-          - "client_max_body_size 500m"
-          - "server_tokens off"
-
+```yml
+- hosts: localhost
+  roles:
+  - role: ome.nginx_proxy
+    nginx_proxy_backends:
+    - location: /
+      server: http://a.internal
+      cache_validity: 1h
+    nginx_proxy_worker_processes: 4
+    nginx_proxy_404: '/404.html'
+    nginx_proxy_ssl: True
+    nginx_proxy_ssl_certificate: /etc/nginx/ssl/website.crt
+    nginx_proxy_ssl_certificate_key: /etc/nginx/ssl/website.key
+    nginx_proxy_http2: True
+    nginx_proxy_force_ssl: True
+    nginx_proxy_hsts_age: 31536000
+    nginx_proxy_conf_http:
+      - "client_max_body_size 500m"
+      - "server_tokens off"
+```
 
 
 
