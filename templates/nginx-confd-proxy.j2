@@ -109,6 +109,17 @@ server {
 
 {% for item in (site.nginx_proxy_backends | default(nginx_proxy_backends)) %}
     location {{ item.location }} {
+{%   if item.websockets | default(False) %}
+{%     if item.websocketsonly | default(False) %}
+        if ($http_upgrade !~* websocket) {
+            return 400;
+        }
+{%     endif %}
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+{%   endif %}
+
 {%   if item.dynamic | default(False) %}
         # To force dynamic DNS lookups need to use a variable
         set $backend_{{ item.name }} "{{ item.server }}";
@@ -127,17 +138,6 @@ server {
 {%     endif %}
         proxy_pass {{ item.server }};
         proxy_redirect {{ item.server }} $scheme://$server_name;
-{%   endif %}
-
-{%   if item.websockets | default(False) %}
-{%     if item.websocketsonly | default(False) %}
-        if ($http_upgrade !~* websocket) {
-            return 400;
-        }
-{%     endif %}
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
 {%   endif %}
 
 {%   if item.cache_validity | default(False) %}
