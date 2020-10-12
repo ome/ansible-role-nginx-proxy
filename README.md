@@ -61,6 +61,7 @@ Backend servers:
   - `dynamic`: If `True` lookup IP on every request, default `False` (only lookup at startup).
   - `cache_validity`: The time that an object should be cached for, if omitted caching is disabled for this backend
   - `websockets`: If `True` enable proxying of websockets, default `False`
+  - `websocketsonly`: If `True` and `websockets: True` only allow websocket requests, otherwise return HTTP status 400, default `False`
   - `read_timeout`: The proxy read timeout, optional
   - `host_header`: Optionally set the Host header, you shouldn't need to set this unless you're trying to work around bugs in applications
   - `maintenance_flag`: Name of an optional local flag file used to indicate the backend is undergoing maintenance, if this file exists `maintenance_uri` will be returned for this location with a `503` error

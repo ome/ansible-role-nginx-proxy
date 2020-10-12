@@ -40,6 +40,7 @@
           server: http://omeroreadonly
           cache_validity: 1d
           websockets: true
+          websocketsonly: true
           read_timeout: 86400
           host_header: "$host"
         - name: maintenance-test
