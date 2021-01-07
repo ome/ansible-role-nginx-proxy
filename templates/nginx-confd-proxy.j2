@@ -192,6 +192,10 @@ server {
         error_page 503 {{ item.maintenance_uri }};
 {%   endif %}
 
+{%   for directive in (item.additional | default([])) %}
+    {{ directive }}{% if directive[-1] != '}' %};{% endif %}
+{% endfor %}
+
     }
 
 {% endfor %}

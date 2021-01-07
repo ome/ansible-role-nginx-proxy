@@ -71,6 +71,7 @@ Backend servers:
   - `name`: The name of the load-balancing group (can be referenced in `nginx_proxy_backends.[].server`)
   - `balance`: Load balancing algorithm
   - `servers`: List of backend servers to be load-balanced
+  - `additional`: List of additional directives
 
 - `nginx_proxy_streams`: List of dictionaries of backend streaming servers
   - `name`: A variable name used for grouping multiple upstream servers
