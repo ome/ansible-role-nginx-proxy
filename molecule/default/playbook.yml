@@ -48,6 +48,8 @@
           server: http://other
           maintenance_flag: /srv/maintenance-test.flag
           maintenance_uri: /default/maintenance-page.html
+          additional:
+            - add_header X-test test
 
       nginx_proxy_forward_scheme_header: X-Forwarded-Proto-Omero-Web
 
