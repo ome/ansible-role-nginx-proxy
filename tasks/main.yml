@@ -30,3 +30,4 @@
     enabled: true
     name: nginx
     state: started
+  when: nginx_proxy_systemd_setup

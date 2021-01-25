@@ -144,6 +144,7 @@ Additional custom configuration:
 - `nginx_proxy_conf_http`: Additional directives to be added to top-level `http` context
 - `nginx_proxy_additional_maps`: List of custom Nginx maps for use in other custom configuration
 - `nginx_proxy_additional_directives`: List of additional directives to be added to the proxy `server` context
+- `nginx_proxy_systemd_setup`: Start/restart nginx using systemd, default `true`, if you want to manage Nginx yourself set this to `false`
 
 
 Role Variables: Multiple sites

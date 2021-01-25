@@ -15,3 +15,5 @@ galaxy_info:
 dependencies:
   - role: ome.selinux_utils
   - role: ome.nginx
+    vars:
+      nginx_systemd_setup: "{{ nginx_proxy_systemd_setup }}"
