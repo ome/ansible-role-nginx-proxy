@@ -9,6 +9,7 @@
     dest: >-
       /etc/nginx/conf.d/proxy-{{ site.nginx_proxy_server_name |
       default('default') }}.conf
+    mode: 0644
   notify:
     - restart nginx
   with_items: "{{ nginx_proxy_sites }}"
@@ -20,6 +21,7 @@
   template:
     src: nginx-confd-proxy-upstream.j2
     dest: /etc/nginx/conf.d/proxy-upstream.conf
+    mode: 0644
   notify:
     - restart nginx
 
@@ -28,6 +30,7 @@
   file:
     path: "{{ item.nginx_proxy_ssl_certificate | dirname }}"
     state: directory
+    mode: 0755
   when: "item.nginx_proxy_ssl_certificate | default(None)"
   with_items:
     - {nginx_proxy_ssl_certificate: "{{ nginx_proxy_ssl_certificate }}"}
@@ -38,6 +41,7 @@
   file:
     path: "{{ item.nginx_proxy_ssl_certificate_key | dirname }}"
     state: directory
+    mode: 0755
   when: "item.nginx_proxy_ssl_certificate_key | default(None)"
   with_items:
     - {nginx_proxy_ssl_certificate_key:

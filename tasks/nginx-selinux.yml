@@ -36,4 +36,4 @@
     {{ nginx_proxy_cache_parent_path }}
   register: result
   check_mode: false
-  changed_when: 'result.stdout != ""'
+  changed_when: result.stdout | length > 0

@@ -17,6 +17,7 @@
   template:
     src: nginx-confd-proxy-redirect.j2
     dest: /etc/nginx/conf.d/proxy-redirect.conf
+    mode: 0644
   when: nginx_proxy_redirect_map
   notify:
     - restart nginx

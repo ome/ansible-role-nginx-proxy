@@ -35,6 +35,7 @@
   template:
     src: nginx-confd-proxy-cache.j2
     dest: /etc/nginx/conf.d/proxy-cache.conf
+    mode: 0644
   when: nginx_proxy_caches
   notify:
     - restart nginx

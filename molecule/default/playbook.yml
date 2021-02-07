@@ -134,9 +134,11 @@
           </head>
           </html>
         dest: /usr/share/nginx/html/maintenance-page.html
+        mode: 0644
 
     - name: Copy reference files
       become: true
       copy:
         dest: /root/etc-nginx/
         src: etc-nginx/
+        mode: 0644

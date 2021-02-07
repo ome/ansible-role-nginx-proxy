@@ -6,5 +6,6 @@
   template:
     src: nginx-confd-proxy-maps.j2
     dest: /etc/nginx/conf.d/proxy-maps.conf
+    mode: 0644
   notify:
     - restart nginx
