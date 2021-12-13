@@ -44,7 +44,6 @@ def test_proxy_limit_method(host, method, expectcode):
 @pytest.mark.parametrize("path", [
     'nginx.conf',
     'conf.d',
-    'stream-conf.d',
 ])
 def test_compare_config(host, path):
     # Check the exit code separately so that the diff is printed out first

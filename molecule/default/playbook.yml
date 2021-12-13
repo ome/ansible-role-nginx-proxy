@@ -114,14 +114,6 @@
       nginx_proxy_block_locations:
         - "^~ /blocked"
 
-      nginx_proxy_streams:
-        - name: idrrsync
-          port: 873
-          servers:
-            - "127.0.100.1:873 max_fails=3 fail_timeout=30s"
-          connect_timeout: 1s
-          timeout: 3s
-
   tasks:
     - name: Create maintenance page
       become: true
