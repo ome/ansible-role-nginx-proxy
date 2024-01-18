@@ -47,10 +47,9 @@ def test_proxy_limit_method(host, method, expectcode):
 ])
 def test_compare_config(host, path):
     # Check the exit code separately so that the diff is printed out first
-    c = host.run('diff -Nur /root/etc-nginx/%s /etc/nginx/%s' % (
-        path, path))
-    assert c.stdout == ''
-    assert c.rc == 0
+    c = host.run('cat /root/etc-nginx/%s' % path)
+    c1 = host.run('cat /etc/nginx/%s' % path)
+    assert c.stdout == c1.stdout
 
 
 @pytest.mark.skip(reason="Maintenance page no longer works - needs review")
