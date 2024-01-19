@@ -115,6 +115,10 @@
         - "^~ /blocked"
 
   tasks:
+    - name: Install diff
+      ansible.builtin.dnf:
+        name: diffutils
+        state: present
     - name: Create maintenance page
       become: true
       copy:
