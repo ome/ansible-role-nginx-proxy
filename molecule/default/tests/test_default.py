@@ -46,7 +46,6 @@ def test_proxy_limit_method(host, method, expectcode):
     'conf.d',
 ])
 def test_compare_config(host, path):
-    # Check the exit code separately so that the diff is printed out first
     c = host.run('diff -Nur /root/etc-nginx/%s /etc/nginx/%s' % (
         path, path))
     assert c.stdout == ''
