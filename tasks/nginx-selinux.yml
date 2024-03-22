@@ -31,7 +31,7 @@
 - name: nginx | restore cache context
   become: true
   command: >-
-    /usr/sbin/restorecon -R -v
+    /usr/sbin/restorecon -R -v -T 0
     {{ ansible_check_mode | ternary('-n', '') }}
     {{ nginx_proxy_cache_parent_path }}
   register: result
