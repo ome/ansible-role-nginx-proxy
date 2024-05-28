@@ -12,20 +12,20 @@
   notify:
     - restart nginx
 
-- include: nginx-selinux.yml
+- include_tasks: nginx-selinux.yml
   when: selinux_enabled
 
-- include: nginx-additional.yml
+- include_tasks: nginx-additional.yml
 
-- include: nginx-cache.yml
+- include_tasks: nginx-cache.yml
 
-- include: nginx-websockets.yml
+- include_tasks: nginx-websockets.yml
 
-- include: nginx-redirects.yml
+- include_tasks: nginx-redirects.yml
 
-- include: nginx-streams.yml
+- include_tasks: nginx-streams.yml
 
-- include: nginx-proxy-sites.yml
+- include_tasks: nginx-proxy-sites.yml
 
 - name: nginx | start service
   become: true
