@@ -1,7 +1,7 @@
 ---
 # tasks file for roles/nginx-proxy
 
-- include: pre-tasks.yml
+- include_tasks: pre-tasks.yml
 
 - name: nginx | main config
   become: true
