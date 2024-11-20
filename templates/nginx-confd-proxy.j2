@@ -35,7 +35,7 @@ server {
 {% if (site.nginx_proxy_ssl | default(nginx_proxy_ssl)) %}
     ssl_certificate {{ site.nginx_proxy_ssl_certificate | default(nginx_proxy_ssl_certificate) }};
     ssl_certificate_key {{ site.nginx_proxy_ssl_certificate_key | default(nginx_proxy_ssl_certificate_key) }};
-    ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;  # don't use SSLv3 ref: POODLE
+    ssl_protocols  TLSv1.2 TLSv1.3;  # don't use SSLv3 ref: POODLE
 {% endif %}
 
     #charset koi8-r;
