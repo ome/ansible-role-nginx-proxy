@@ -2,11 +2,11 @@
 # Must be imported to prevent
 # undeclared variable failure
 - name: nginx proxy | Import ome.selinux_utils role
-  import_role:
+  ansible.builtin.import_role:
     name: ome.selinux_utils
 
 - name: nginx proxy| Include ome.nginx role
-  include_role:
+  ansible.builtin.include_role:
     name: ome.nginx
   vars:
     nginx_systemd_setup: "{{ nginx_proxy_systemd_setup }}"

@@ -4,7 +4,7 @@
 # See http://serverfault.com/a/337893
 - name: nginx | proxy config
   become: true
-  template:
+  ansible.builtin.template:
     src: nginx-confd-proxy.j2
     dest: >-
       /etc/nginx/conf.d/proxy-{{ site.nginx_proxy_server_name |
@@ -18,7 +18,7 @@
 
 - name: nginx | proxy upstream servers
   become: true
-  template:
+  ansible.builtin.template:
     src: nginx-confd-proxy-upstream.j2
     dest: /etc/nginx/conf.d/proxy-upstream.conf
     mode: 0644
@@ -27,7 +27,7 @@
 
 - name: nginx | create proxy ssl certificate directory
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ item.nginx_proxy_ssl_certificate | dirname }}"
     state: directory
     mode: 0755
@@ -38,7 +38,7 @@
 
 - name: nginx | create proxy ssl certificate key directory
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ item.nginx_proxy_ssl_certificate_key | dirname }}"
     state: directory
     mode: 0755
@@ -50,7 +50,7 @@
 
 - name: nginx | copy proxy ssl certificate
   become: true
-  copy:
+  ansible.builtin.copy:
     dest: "{{ item.nginx_proxy_ssl_certificate }}"
     group: root
     owner: root
@@ -68,7 +68,7 @@
 
 - name: nginx | copy proxy ssl certificate key
   become: true
-  copy:
+  ansible.builtin.copy:
     dest: "{{ item.nginx_proxy_ssl_certificate_key }}"
     group: root
     owner: root

@@ -3,7 +3,7 @@
 
 # If caching is enabled for any proxies the nginx cache must be configured
 - name: nginx | check cache configuration
-  fail:
+  ansible.builtin.fail:
     msg: >
       Caching enabled for {{ item.location }} but nginx_proxy_caches is empty
   when: (item.cache_validity | default(False)) and not nginx_proxy_caches
@@ -12,7 +12,7 @@
 # In case the nginx cache directory is on a different partition
 - name: nginx | fix cache directory permissions
   become: true
-  file:
+  ansible.builtin.file:
     dest: "{{ nginx_proxy_cache_parent_path }}"
     group: nginx
     mode: 0750
@@ -21,7 +21,7 @@
 
 - name: nginx | create cache directories
   become: true
-  file:
+  ansible.builtin.file:
     dest: "{{ nginx_proxy_cache_parent_path }}/{{ item.name }}"
     group: nginx
     mode: 0750
@@ -32,7 +32,7 @@
 
 - name: nginx | proxy cache config
   become: true
-  template:
+  ansible.builtin.template:
     src: nginx-confd-proxy-cache.j2
     dest: /etc/nginx/conf.d/proxy-cache.conf
     mode: 0644
@@ -42,7 +42,7 @@
 
 - name: nginx | proxy cache config
   become: true
-  file:
+  ansible.builtin.file:
     dest: /etc/nginx/conf.d/proxy-cache.conf
     state: absent
   notify:
