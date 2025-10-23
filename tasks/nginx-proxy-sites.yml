@@ -31,7 +31,7 @@
     path: "{{ item.nginx_proxy_ssl_certificate | dirname }}"
     state: directory
     mode: 0755
-  when: "item.nginx_proxy_ssl_certificate | default(None)"
+  when: "(item.nginx_proxy_ssl_certificate | default(None)) | length > 0"
   with_items:
     - {nginx_proxy_ssl_certificate: "{{ nginx_proxy_ssl_certificate }}"}
     - "{{ nginx_proxy_sites }}"
@@ -42,7 +42,7 @@
     path: "{{ item.nginx_proxy_ssl_certificate_key | dirname }}"
     state: directory
     mode: 0755
-  when: "item.nginx_proxy_ssl_certificate_key | default(None)"
+  when: "(item.nginx_proxy_ssl_certificate_key | default(None)) | length > 0"
   with_items:
     - {nginx_proxy_ssl_certificate_key:
          "{{ nginx_proxy_ssl_certificate_key }}"}
@@ -56,7 +56,7 @@
     owner: root
     mode: 0400
     src: "{{ item.nginx_proxy_ssl_certificate_source_path }}"
-  when: "item.nginx_proxy_ssl_certificate_source_path | default(None)"
+  when: "(item.nginx_proxy_ssl_certificate_source_path | default(None)) | length > 0"
   with_items:
     - {nginx_proxy_ssl_certificate: "{{ nginx_proxy_ssl_certificate }}",
        nginx_proxy_ssl_certificate_source_path:
@@ -74,7 +74,7 @@
     owner: root
     mode: 0400
     src: "{{ item.nginx_proxy_ssl_certificate_key_source_path }}"
-  when: "item.nginx_proxy_ssl_certificate_key_source_path | default(None)"
+  when: "(item.nginx_proxy_ssl_certificate_key_source_path | default(None)) | length > 0"
   with_items:
     - {nginx_proxy_ssl_certificate_key:
          "{{ nginx_proxy_ssl_certificate_key }}",
