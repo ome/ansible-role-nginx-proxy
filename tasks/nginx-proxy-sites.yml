@@ -74,7 +74,7 @@
     owner: root
     mode: 0400
     src: "{{ item.nginx_proxy_ssl_certificate_key_source_path }}"
-  when: "(item.nginx_proxy_ssl_certificate_key_source_path | default('') | length > 0"
+  when: "(item.nginx_proxy_ssl_certificate_key_source_path | default('')) | length > 0"
   with_items:
     - {nginx_proxy_ssl_certificate_key:
          "{{ nginx_proxy_ssl_certificate_key }}",
