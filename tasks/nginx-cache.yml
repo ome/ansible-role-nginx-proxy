@@ -6,7 +6,7 @@
   ansible.builtin.fail:
     msg: >
       Caching enabled for {{ item.location }} but nginx_proxy_caches is empty
-  when: (item.cache_validity | default(False)) and not nginx_proxy_caches
+  when: (item.cache_validity | default(False)) and not (nginx_proxy_caches | length >0)
   with_items: "{{ nginx_proxy_backends }}"
 
 # In case the nginx cache directory is on a different partition
@@ -28,7 +28,7 @@
     owner: nginx
     state: directory
   with_items: "{{ nginx_proxy_caches }}"
-  when: nginx_proxy_caches
+  when: nginx_proxy_caches | length > 0
 
 - name: nginx | proxy cache config
   become: true
@@ -36,7 +36,7 @@
     src: nginx-confd-proxy-cache.j2
     dest: /etc/nginx/conf.d/proxy-cache.conf
     mode: 0644
-  when: nginx_proxy_caches
+  when: nginx_proxy_caches | length > 0
   notify:
     - restart nginx
 
@@ -47,4 +47,4 @@
     state: absent
   notify:
     - restart nginx
-  when: not nginx_proxy_caches
+  when: not (nginx_proxy_caches | length > 0)
