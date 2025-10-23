@@ -1,3 +1,10 @@
 ---
-- src: ome.selinux_utils
-- src: ome.nginx
+
+# - src: ome.selinux_utils
+- name: selinux_utils
+  src: https://github.com/khaledk2/ansible-role-selinux-utils
+  version: update_ansible
+# - src: ome.nginx
+- name: nginx
+  src: https://github.com/pwalczysko/ansible-role-nginx
+  version: nginx-repo
