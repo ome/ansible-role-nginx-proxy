@@ -22,7 +22,7 @@
 # /var/cache/nginx(/.*)? so Nginx may not be able to modify the cache
 - name: nginx | selinux cache context policy
   become: true
-  ansible.builtin.sefcontext:
+  community.general.sefcontext:
     target: >-
       {{ nginx_proxy_cache_parent_path | regex_replace('\\/$', '') }}(/.*)?
     setype: httpd_cache_t
