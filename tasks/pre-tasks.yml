@@ -3,10 +3,10 @@
 # undeclared variable failure
 - name: nginx proxy | Import ome.selinux_utils role
   ansible.builtin.import_role:
-    name: selinux_utils
+    name: ome.selinux_utils
 
 - name: nginx proxy| Include ome.nginx role
   ansible.builtin.include_role:
-    name: nginx
+    name: ome.nginx
   vars:
     nginx_systemd_setup: "{{ nginx_proxy_systemd_setup }}"
