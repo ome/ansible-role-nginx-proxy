@@ -11,7 +11,7 @@
 # This may not work if the port already has a different setype assigned to it
 - name: nginx | stream selinux ports
   become: true
-  ansible.builtin.seport:
+  community.general.seport:
     ports: "{{ item.port }}"
     proto: tcp
     setype: http_port_t
