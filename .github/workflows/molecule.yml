@@ -48,7 +48,8 @@ jobs:
       - test
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - name: galaxy
+        uses: actions/checkout@v4
       - name: Read the role name
         id: role-name
         run: |
