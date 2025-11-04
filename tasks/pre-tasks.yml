@@ -5,8 +5,8 @@
   ansible.builtin.import_role:
     name: ome.selinux_utils
 
-- name: nginx proxy| Include ome.nginx role
-  ansible.builtin.include_role:
+- name: nginx proxy| Import ome.nginx role
+  ansible.builtin.import_role:
     name: ome.nginx
   vars:
     nginx_systemd_setup: "{{ nginx_proxy_systemd_setup }}"
