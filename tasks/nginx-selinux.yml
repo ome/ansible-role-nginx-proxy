@@ -3,7 +3,7 @@
 
 - name: nginx | selinux allow network connect
   become: true
-  ansible.builtin.seboolean:
+  community.general.seboolean:
     name: httpd_can_network_connect
     state: true
     persistent: true
