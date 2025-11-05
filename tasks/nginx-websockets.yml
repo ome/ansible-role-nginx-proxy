@@ -4,7 +4,7 @@
 # If websockets are enabled for any proxies then it must also be enabled at
 # the top level
 - name: nginx | check websockets configuration
-  fail:
+  ansible.builtin.fail:
     msg: >
       (Websockets enabled for {{ item.location }} but
       nginx_proxy_websocket_enable is False)
@@ -15,7 +15,7 @@
 
 - name: nginx | proxy websockets config
   become: true
-  copy:
+  ansible.builtin.copy:
     src: nginx-confd-proxy-websockets.conf
     dest: /etc/nginx/conf.d/proxy-websockets.conf
     mode: 0644
@@ -25,7 +25,7 @@
 
 - name: nginx | proxy websockets config
   become: true
-  file:
+  ansible.builtin.file:
     dest: /etc/nginx/conf.d/proxy-websockets.conf
     state: absent
   notify:

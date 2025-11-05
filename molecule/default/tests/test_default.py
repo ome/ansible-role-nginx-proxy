@@ -32,7 +32,7 @@ def test_get_alias(host):
 
 
 @pytest.mark.parametrize("method,expectcode", [
-    ('GET', 200),
+    ('GET', 301),
     ('POST', 403),
 ])
 def test_proxy_limit_method(host, method, expectcode):

@@ -121,7 +121,7 @@
         state: present
     - name: Create maintenance page
       become: true
-      copy:
+      ansible.builtin.copy:
         content: |
           <!doctype html>
           <html lang=en>
@@ -134,7 +134,7 @@
 
     - name: Copy reference files
       become: true
-      copy:
+      ansible.builtin.copy:
         dest: /root/etc-nginx/
         src: etc-nginx/
         mode: 0644

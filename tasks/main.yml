@@ -1,35 +1,35 @@
 ---
 # tasks file for roles/nginx-proxy
 
-- include: pre-tasks.yml
+- ansible.builtin.import_tasks: pre-tasks.yml
 
 - name: nginx | main config
   become: true
-  template:
+  ansible.builtin.template:
     src: nginx-conf.j2
     dest: /etc/nginx/nginx.conf
     mode: 0644
   notify:
     - restart nginx
 
-- include: nginx-selinux.yml
+- ansible.builtin.include_tasks: nginx-selinux.yml
   when: selinux_enabled
 
-- include: nginx-additional.yml
+- ansible.builtin.import_tasks: nginx-additional.yml
 
-- include: nginx-cache.yml
+- ansible.builtin.import_tasks: nginx-cache.yml
 
-- include: nginx-websockets.yml
+- ansible.builtin.import_tasks: nginx-websockets.yml
 
-- include: nginx-redirects.yml
+- ansible.builtin.import_tasks: nginx-redirects.yml
 
-- include: nginx-streams.yml
+- ansible.builtin.import_tasks: nginx-streams.yml
 
-- include: nginx-proxy-sites.yml
+- ansible.builtin.import_tasks: nginx-proxy-sites.yml
 
 - name: nginx | start service
   become: true
-  service:
+  ansible.builtin.service:
     enabled: true
     name: nginx
     state: started

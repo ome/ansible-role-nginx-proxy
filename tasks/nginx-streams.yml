@@ -5,26 +5,26 @@
 # the top level
 - name: nginx | stream-conf.d directory
   become: true
-  file:
+  ansible.builtin.file:
     path: /etc/nginx/stream-conf.d
     state: directory
     mode: 0755
 
 - name: nginx | stream proxy config
   become: true
-  template:
+  ansible.builtin.template:
     src: nginx-confd-streams.j2
     dest: /etc/nginx/stream-conf.d/proxy-streams.conf
     mode: 0644
   notify:
     - restart nginx
-  when: nginx_proxy_streams
+  when: nginx_proxy_streams | length > 0
 
 - name: nginx | stream proxy config
   become: true
-  file:
+  ansible.builtin.file:
     dest: /etc/nginx/stream-conf.d/proxy-streams.conf
     state: absent
   notify:
     - restart nginx
-  when: not nginx_proxy_streams
+  when: not (nginx_proxy_streams | length > 0)
