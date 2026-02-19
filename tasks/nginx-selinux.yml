@@ -3,7 +3,7 @@
 
 - name: nginx | selinux allow network connect
   become: true
-  community.general.seboolean:
+  ansible.posix.seboolean:
     name: httpd_can_network_connect
     state: true
     persistent: true
@@ -11,7 +11,7 @@
 # This may not work if the port already has a different setype assigned to it
 - name: nginx | stream selinux ports
   become: true
-  community.general.seport:
+  ansible.posix.seport:
     ports: "{{ item.port }}"
     proto: tcp
     setype: http_port_t
@@ -22,7 +22,7 @@
 # /var/cache/nginx(/.*)? so Nginx may not be able to modify the cache
 - name: nginx | selinux cache context policy
   become: true
-  community.general.sefcontext:
+  ansible.posix.sefcontext:
     target: >-
       {{ nginx_proxy_cache_parent_path | regex_replace('\\/$', '') }}(/.*)?
     setype: httpd_cache_t
